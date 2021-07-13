@@ -4,8 +4,11 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
   } from 'reactstrap';
+import {Link} from 'react-router-dom';
+
 
 const url = 'https://fakestoreapi.com/products';
+
 
 
 function AllProducts() {
@@ -42,14 +45,18 @@ function AllProducts() {
       return (
         
             <div className ='row justify-content-center'>
-          {products.map(product => (
-               
-              
+          {products.map(product => (  
+            
             <Card className ='col-md-3 mx-2' key ={product.id}>
-            <h3>{product.title}</h3>
-            <h3>{product.price}</h3>
-            <p>{product.description}</p>
-            </Card >
+            <Link to = {`/${product.id}`}>
+           
+                <h3>{product.title}</h3>
+                <h3>{product.price}</h3>
+                <img src={product.image} alt={product.title} width = '50%' />
+                <p>{product.description}</p>  
+                
+                </Link>
+            </Card> 
           ))}
           </div>
           
