@@ -1,28 +1,28 @@
 
 import './App.css';
-
 import data from './shared/getData';
+import {Provider} from 'react-redux';
 import AllProducts from './components/AllProducts';
 import Product from './components/Product';
-import {BrowserRouter as Router, Switch,Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch,Route,Redirect } from 'react-router-dom';
+import { configureStore } from '@reduxjs/toolkit';
 
 
-console.log(data)
+
 function App() {
   return (
-    <Router>
-    <div className="App">
-      
-      <Switch>
-           <Route path = '/all' component = {AllProducts} /> 
-         <Route path = '/:handle' component = {Product}  />
-         
-      </Switch>
-       
-      
-    </div></Router>
-    
+    <Provider store = {configureStore()}>
+      <Router>
+        <div className="App">
+          <Switch>
+              <Route path = '/all' component = {AllProducts} /> 
+              <Route path = '/:handle' component = {Product}  />
+              <Redirect to ='/all' />
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
   );
 }
-console.log(AllProducts.products) 
+
 export default App;
