@@ -4,12 +4,10 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
   } from 'reactstrap';
-import {Link} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import {LOAD_PRODUCTS} from "../redux/actions"
+import {fetchProducts} from '../redux/actionCreators'
 
-
-//const url = 'https://fakestoreapi.com/products';
 
 
 
@@ -67,12 +65,46 @@ import {LOAD_PRODUCTS} from "../redux/actions"
     }
   } */
 
-  function AllProducts ({products}) {
+  /* function AllProducts (props) {
+    const [products,setProducts] = useState()
+    useEffect (()=> {
 
+
+    }) */
+    const mapStateToProps = state => { //receives entire state tree and returns an object that contains only the data needed by the component
+      return {
+          products: state.products
+      };
+  };
+    
+     const mapDispatchToProps =  {
+        
+        fetchProducts: () => (fetchProducts())
+     }
+
+      class AllProducts extends React.Component {
+      componentDidMount() {
+        this.props.fetchProducts();
+      }  
+
+      /* function AllProducts () {
+      useEffect (() => fetchProducts());  */
+  
+  render() {
+       /* const { error, loading, products } = this.props;
+    
+         if (error) {
+          return <div>Error! {error.message}</div>;
+        }
+    
+        if (loading) {
+          return <div>Loading...</div>;
+        } */
+ 
     return (
         
       <div className ='row justify-content-center'>
-    {products.map(product => (  
+    {this.props.products.map(product => (  
       
       <Card className ='col-md-3 mx-2' key ={product.id}>
       <Link to = {`/${product.id}`}>
@@ -89,19 +121,12 @@ import {LOAD_PRODUCTS} from "../redux/actions"
 
     )}
 
-con
+  }
 
 
-//export default AllProducts;
 
-const mapStateToProps = state => ({
-    products: state.products
-})
 
-/* const mapDispatchToProps = dispatch => ({
-    
-})
- */
-export default connect (mapStateToProps,mapDispatchToProps)(AllProducts);
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(AllProducts));
     
 

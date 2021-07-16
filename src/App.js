@@ -1,11 +1,11 @@
 
 import './App.css';
 import data from './shared/getData';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import AllProducts from './components/AllProducts';
 import Product from './components/Product';
 import {BrowserRouter as Router, Switch,Route,Redirect } from 'react-router-dom';
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from './redux/store';
 
 
 
@@ -16,7 +16,7 @@ function App() {
         <div className="App">
           <Switch>
               <Route path = '/all' component = {AllProducts} /> 
-              <Route path = '/:handle' component = {Product}  />
+              <Route path = '/:handle' component = {Product}/>
               <Redirect to ='/all' />
           </Switch>
         </div>
