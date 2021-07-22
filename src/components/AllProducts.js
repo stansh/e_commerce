@@ -1,5 +1,5 @@
 
-import React,{useState,useEffect}from "react";
+import React,{useState,useEffect, useFetching}from "react";
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
@@ -11,6 +11,43 @@ import {fetchProducts} from '../redux/actionCreators'
 
 
 
+
+
+const mapStateToProps = state => { //receives entire state tree and returns an object that contains only the data needed by the component
+  return {
+      products: state.products
+  };
+};
+    
+const mapDispatchToProps =  {
+  fetchProducts: () => (fetchProducts())
+}
+
+function AllProducts (props) {
+/* useEffect(() => {
+  props.fetchProducts();
+},[]); */
+  
+ 
+  return (
+        
+    <div className ='row justify-content-center'>
+      {props.products.map(product => (  
+        <Card className ='col-md-3 mx-2' key ={product.id}>
+          <Link to = {`/${product.id}`}>
+            <h3>{product.title}</h3>
+            <h3>{product.price}</h3>
+            <img src={product.image} alt={product.title} width = '50%' />
+            <p>{product.description}</p>
+            {/* <Button onClick = {addToCard()} >Add to Card</Button>  */} 
+        </Link>
+        </Card> 
+      ))}
+    </div>
+)}
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(AllProducts));
+    
 /* function AllProducts() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -64,69 +101,4 @@ import {fetchProducts} from '../redux/actionCreators'
       );
     }
   } */
-
-  /* function AllProducts (props) {
-    const [products,setProducts] = useState()
-    useEffect (()=> {
-
-
-    }) */
-    const mapStateToProps = state => { //receives entire state tree and returns an object that contains only the data needed by the component
-      return {
-          products: state.products
-      };
-  };
-    
-     const mapDispatchToProps =  {
-        
-        fetchProducts: () => (fetchProducts())
-     }
-
-      class AllProducts extends React.Component {
-      componentDidMount() {
-        this.props.fetchProducts();
-      }  
-
-      /* function AllProducts () {
-      useEffect (() => fetchProducts());  */
-  
-  render() {
-       /* const { error, loading, products } = this.props;
-    
-         if (error) {
-          return <div>Error! {error.message}</div>;
-        }
-    
-        if (loading) {
-          return <div>Loading...</div>;
-        } */
- 
-    return (
-        
-      <div className ='row justify-content-center'>
-    {this.props.products.map(product => (  
-      
-      <Card className ='col-md-3 mx-2' key ={product.id}>
-      <Link to = {`/${product.id}`}>
-     
-          <h3>{product.title}</h3>
-          <h3>{product.price}</h3>
-          <img src={product.image} alt={product.title} width = '50%' />
-          <p>{product.description}</p>  
-          
-          </Link>
-      </Card> 
-    ))}
-    </div>
-
-    )}
-
-  }
-
-
-
-
-
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(AllProducts));
-    
 

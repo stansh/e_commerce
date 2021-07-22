@@ -6,6 +6,7 @@ const url = 'https://fakestoreapi.com/products';
 export const fetchProducts = () => dispatch => { 
     dispatch(productsLoading());
     return fetch(url)
+    
     .then(response => {
     if (response.ok) { // true if HTTP response status cose is within 200 - 299
         return response;
