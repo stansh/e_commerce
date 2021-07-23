@@ -1,6 +1,8 @@
 import * as actions from './actions'
 
-const url = 'https://fakestoreapi.com/products';
+/* const url = 'https://fakestoreapi.com/products'; */
+
+const url = 'https://my-json-server.typicode.com/jubs16/Products/Products'
 
  
 export const fetchProducts = () => dispatch => { 
@@ -28,7 +30,6 @@ export const fetchProducts = () => dispatch => {
  
       
 
-
     
 export const productsLoading = () => ({
     type: actions.PRODUCTS_LOADING
@@ -44,3 +45,13 @@ export const loadingFailed = errMess => ({
     payload: errMess
 });
 
+export const addProductToCart = product =>({
+    type: actions.ADD_PRODUCT_TO_CART,
+    payload: product 
+})
+
+
+export const removeProductFromCart = productItem =>({
+    type: actions.REMOVE_PRODUCT_FROM_CART,
+    payload: productItem
+})

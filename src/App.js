@@ -7,7 +7,6 @@ import Product from './components/Product';
 import {BrowserRouter as Router, Switch,Route,Redirect } from 'react-router-dom';
 import {configureStore} from './redux/store';
 import {persistStore} from 'redux-persist';
-import {persistGate} from 'redux-persist/lib/integration/react';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const store = configureStore();
@@ -15,9 +14,9 @@ const persistor = persistStore(store);
 function App() {
   return (
     <Provider  store = {store}>
-      <PersistGate
-        loading = {<div>Loading...</div>}  
-        persistor = {persistor}>
+       <PersistGate
+         loading = {<div>Loading...</div>}  
+         persistor = {persistor} >  
         <Router>
           <div className="App">
             <Switch>
@@ -27,7 +26,7 @@ function App() {
             </Switch>
           </div>
         </Router>
-      </PersistGate>
+  </PersistGate>  
      
     </Provider>
   );

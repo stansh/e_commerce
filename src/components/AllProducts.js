@@ -6,7 +6,7 @@ import {
   } from 'reactstrap';
 import {Link,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import {fetchProducts} from '../redux/actionCreators'
+import {fetchProducts,addProductToCart} from '../redux/actionCreators'
 
 
 
@@ -20,27 +20,29 @@ const mapStateToProps = state => { //receives entire state tree and returns an o
 };
     
 const mapDispatchToProps =  {
-  fetchProducts: () => (fetchProducts())
+  fetchProducts: () => (fetchProducts()),
+  addProductToCart: () => (addProductToCart())
 }
 
 function AllProducts (props) {
 /* useEffect(() => {
   props.fetchProducts();
-},[]); */
-  
+},[]);
+   */
  
   return (
         
     <div className ='row justify-content-center'>
-      {props.products.map(product => (  
-        <Card className ='col-md-3 mx-2' key ={product.id}>
-          <Link to = {`/${product.id}`}>
+      {props.products.map((product, index) => (  
+        <Card className ='col-md-3 mx-2' key ={index}>
+          <Link to = {`/${index}`}>
             <h3>{product.title}</h3>
-            <h3>{product.price}</h3>
-            <img src={product.image} alt={product.title} width = '50%' />
+            <h3>{product.name}</h3>
+            <img src={product.imgUrl} alt={product.title} width = '50%' />
             <p>{product.description}</p>
-            {/* <Button onClick = {addToCard()} >Add to Card</Button>  */} 
+            
         </Link>
+        <Button onClick = {() => addProductToCart(product)} >Add to Card</Button> 
         </Card> 
       ))}
     </div>
