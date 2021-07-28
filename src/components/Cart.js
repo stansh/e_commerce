@@ -1,20 +1,48 @@
 import React from 'react';
-import {Card} from 'reactstrap';
+import {Card, Button} from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import {withRouter} from 'react-router-dom';
+const mapStateToProps = state => {
+    return {
+        cart: state.cartReducer.cartItems
+    };
+};
 
-function Cart (props) {
+const mapDispatchToProps = {
 
-return(
-   <div>
-       <Card>
-           <h4>{props.product.title}</h4>
-           <h4>{props.product.price}</h4>
-       </Card>
-   </div>
-
-)
 
 }
 
-export default withRouter(Cart);
+function Cart (props) {
+
+  if (props.cart.length === 0) {
+
+    return (
+        <div >
+            <h1>No Items</h1>
+            <h3>{props.cart.length}</h3>
+        </div>
+    )
+   
+    } else {
+    return (
+    <div>
+        <Card>
+            <h2>My cart</h2>
+             {props.cart.map((product,index) => (
+                <div key = {index} >
+                    <h5>{product.title}</h5>
+                    <h5>{product.price}</h5>
+                    <Button className = 'btn btn-sm btn-info' onClick = {() => props.removeItem(product)} >Remove Item</Button> 
+                </div>
+            ))} 
+        </Card>
+    </div>
+
+    )
+}
+}
+
+export default withRouter(connect(mapStateToProps)(Cart));

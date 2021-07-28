@@ -4,51 +4,61 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
   } from 'reactstrap';
-import {Link,withRouter} from 'react-router-dom';
+import Cart from "./Cart";
+import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import {fetchProducts,addProductToCart} from '../redux/actionCreators'
+import { fetchProducts, loadProductsData, addItem} from '../redux/actionCreators'
 
 
 
 
+//receives entire state tree and returns an object that contains only the data needed by the component
 
-
-const mapStateToProps = state => { //receives entire state tree and returns an object that contains only the data needed by the component
+const mapStateToProps = state => { 
   return {
-      products: state.products
+      products: state.productsReducer.products
   };
 };
     
 const mapDispatchToProps =  {
-  fetchProducts: () => (fetchProducts()),
-  addProductToCart: () => (addProductToCart())
+  //fetchProducts: () => (fetchProducts()),
+  loadProductsData: () => (loadProductsData()),
+  addItem: (item) => (addItem(item))
 }
 
 function AllProducts (props) {
-/* useEffect(() => {
-  props.fetchProducts();
-},[]);
-   */
+ useEffect(() => {
  
+  //props.fetchProducts();
+  props.loadProductsData();
+  
+},[]); 
+ 
+
+
+
   return (
         
     <div className ='row justify-content-center'>
+      <Cart />
       {props.products.map((product, index) => (  
         <Card className ='col-md-3 mx-2' key ={index}>
           <Link to = {`/${index}`}>
             <h3>{product.title}</h3>
             <h3>{product.name}</h3>
-            <img src={product.imgUrl} alt={product.title} width = '50%' />
+            <img src={product.image} alt={product.title} width = '100px' />
             <p>{product.description}</p>
             
         </Link>
-        <Button onClick = {() => addProductToCart(product)} >Add to Card</Button> 
+        <Button onClick = {() => props.addItem(product)} >Add to Card</Button> 
         </Card> 
       ))}
     </div>
 )}
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(AllProducts));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));
+
+//export default withRouter(AllProducts);
     
 /* function AllProducts() {
     const [error, setError] = useState(null);

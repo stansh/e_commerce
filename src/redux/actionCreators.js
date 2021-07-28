@@ -1,11 +1,13 @@
 import * as actions from './actions'
+import { productsData } from "../shared/productsData";
+import { configureStore } from './store';
 
 /* const url = 'https://fakestoreapi.com/products'; */
 
 const url = 'https://my-json-server.typicode.com/jubs16/Products/Products'
 
  
-export const fetchProducts = () => dispatch => { 
+/* export const fetchProducts = () => dispatch => { 
     dispatch(productsLoading());
     return fetch(url)
     
@@ -27,17 +29,20 @@ export const fetchProducts = () => dispatch => {
     .then(products => dispatch(loadProductsSuccess(products)))
     .catch(error => dispatch(loadingFailed(error)));
     };
- 
+  */
       
-
+export const loadProductsData = () => dispatch => {
+        dispatch(loadProductsSuccess(productsData))
+    }
+    
     
 export const productsLoading = () => ({
     type: actions.PRODUCTS_LOADING
     }); 
 
-export const loadProductsSuccess = products => ({
+export const loadProductsSuccess = data => ({
     type: actions.LOAD_PRODUCTS_SUCCESS,
-    payload: products
+    payload: data
 });
 
 export const loadingFailed = errMess => ({
@@ -45,13 +50,24 @@ export const loadingFailed = errMess => ({
     payload: errMess
 });
 
-export const addProductToCart = product =>({
+
+//CART actions
+export const addProductToCart = productItem  => ({
     type: actions.ADD_PRODUCT_TO_CART,
-    payload: product 
+    payload: productItem  
 })
 
 
-export const removeProductFromCart = productItem =>({
+export const addItem = (productItem) => dispatch => {
+    const itemToAdd = productItem;
+   console.log("add item func",itemToAdd)
+    dispatch(addProductToCart(itemToAdd))
+}
+
+
+
+
+export const removeProductFromCart = productItem => ({
     type: actions.REMOVE_PRODUCT_FROM_CART,
     payload: productItem
 })

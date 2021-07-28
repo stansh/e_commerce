@@ -1,9 +1,7 @@
 import * as actions from "./actions"
+//import { productsData } from "../shared/productsData";
 
 export const productsReducer = (state = {
-    
-    isLoading: true,
-    errMess: null,
     products: []
 }, action) => {
     
