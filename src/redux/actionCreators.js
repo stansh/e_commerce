@@ -52,20 +52,21 @@ export const loadingFailed = errMess => ({
 
 
 //CART actions
-export const addProductToCart = productItem  => ({
-    type: actions.ADD_PRODUCT_TO_CART,
-    payload: productItem  
-})
 
 
-export const addItem = (productItem) => dispatch => {
-    const itemToAdd = productItem;
-   console.log("add item func",itemToAdd)
-    dispatch(addProductToCart(itemToAdd))
+export const addItem = productItem => dispatch => {
+    dispatch(addProductToCart(productItem))
 }
 
+export const addProductToCart = productItem  => ({
+    type: actions.ADD_PRODUCT_TO_CART,
+    payload: productItem
 
+})
 
+export const removeItem = productItem => dispatch => {
+    dispatch (removeProductFromCart(productItem))
+}
 
 export const removeProductFromCart = productItem => ({
     type: actions.REMOVE_PRODUCT_FROM_CART,

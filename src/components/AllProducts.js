@@ -27,12 +27,12 @@ const mapDispatchToProps =  {
 }
 
 function AllProducts (props) {
+  
  useEffect(() => {
- 
   //props.fetchProducts();
   props.loadProductsData();
   
-},[]); 
+}); 
  
 
 

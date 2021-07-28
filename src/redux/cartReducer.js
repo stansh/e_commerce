@@ -1,12 +1,19 @@
 import * as actions from "./actions"
 
 export const cartReducer = ( state = {
-    cartItems: []
+    cartItems: [],
+    qty:null
+    
     }, action) => { 
     switch(action.type) {
         case actions.ADD_PRODUCT_TO_CART:
-            
-            return {...state, cartItems: state.cartItems.concat(action.payload) };
+        const hasTheItem  = state.cartItems.some((item) => item.id === action.payload.id);
+        if(!hasTheItem)  {
+            return {...state, cartItems: state.cartItems.concat(action.payload)};
+        } else {
+            return {qty: state.qty++}
+        };
+        break;    
         case actions.REMOVE_PRODUCT_FROM_CART:
             const updatedCart = state.cartItems.filter(item => item.id !== action.payload.id)
             return {...state, cartItems: updatedCart};

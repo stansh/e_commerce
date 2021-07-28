@@ -1,21 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Card, Button} from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { removeItem } from '../redux/actionCreators';
 
 const mapStateToProps = state => {
     return {
         cart: state.cartReducer.cartItems
     };
 };
-
 const mapDispatchToProps = {
-
+   removeItem: (item) => (removeItem(item))
 
 }
 
 function Cart (props) {
+    const [counter, setCounter] = useState(0) 
 
   if (props.cart.length === 0) {
 
@@ -35,6 +36,7 @@ function Cart (props) {
                 <div key = {index} >
                     <h5>{product.title}</h5>
                     <h5>{product.price}</h5>
+                    <h5>Quantity: </h5>
                     <Button className = 'btn btn-sm btn-info' onClick = {() => props.removeItem(product)} >Remove Item</Button> 
                 </div>
             ))} 
@@ -45,4 +47,4 @@ function Cart (props) {
 }
 }
 
-export default withRouter(connect(mapStateToProps)(Cart));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Cart));

@@ -21,15 +21,15 @@ const persistConfig = {
     storage,
     stateReconciler: autoMergeLevel2,
 }
- //const persistedreducer = persistReducer(persistConfig, rootReducer);
+ const persistedreducer = persistReducer(persistConfig, rootReducer);
    
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
 export const configureStore = () => createStore (
-   // persistedreducer,
-   rootReducer,
+    persistedreducer,
+   //rootReducer,
    composeEnhancers(applyMiddleware(thunk, logger))
 )
   
