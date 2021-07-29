@@ -12,13 +12,12 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = {
    removeItem: (item) => (removeItem(item))
-
 }
 
 function Cart (props) {
-    const [counter, setCounter] = useState(0) 
+   // const [counter, setCounter] = useState(0) 
 
-  if (props.cart.length === 0) {
+  if (!props.cart) {
 
     return (
         <div >
@@ -33,10 +32,10 @@ function Cart (props) {
         <Card>
             <h2>My cart</h2>
              {props.cart.map((product,index) => (
-                <div key = {index} >
+                <div key = {index} className='col-2-md'>
                     <h5>{product.title}</h5>
                     <h5>{product.price}</h5>
-                    <h5>Quantity: </h5>
+                    <h5>Quantity: {product.qty}</h5>
                     <Button className = 'btn btn-sm btn-info' onClick = {() => props.removeItem(product)} >Remove Item</Button> 
                 </div>
             ))} 

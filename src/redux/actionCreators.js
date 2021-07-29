@@ -61,7 +61,6 @@ export const addItem = productItem => dispatch => {
 export const addProductToCart = productItem  => ({
     type: actions.ADD_PRODUCT_TO_CART,
     payload: productItem
-
 })
 
 export const removeItem = productItem => dispatch => {
