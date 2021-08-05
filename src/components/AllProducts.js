@@ -7,7 +7,7 @@ import {
 import Cart from "./Cart";
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchProducts, loadProductsData, addItem} from '../redux/actionCreators'
+import { fetchProducts, loadProductsData, addItem, addProductToCart} from '../redux/actionCreators'
 
 
 
@@ -23,7 +23,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps =  {
   //fetchProducts: () => (fetchProducts()),
   loadProductsData: () => (loadProductsData()),
-  addItem: (item) => (addItem(item))
+  addProductToCart: (item) => (addProductToCart(item))
 }
 
 function AllProducts (props) {
@@ -50,7 +50,7 @@ function AllProducts (props) {
             <p>{product.description}</p>
             
         </Link>
-        <Button onClick = {() => props.addItem(product)} >Add to Card</Button> 
+        <Button onClick = {() => props.addProductToCart(product)} >Add to Card</Button> 
         </Card> 
       ))}
     </div>

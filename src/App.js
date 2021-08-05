@@ -24,6 +24,7 @@ function App() {
             <Switch>
                 <Route path = '/all' component = {AllProducts} /> 
                 <Route path = '/:index' component = {Product} width = '20%' />
+                
                 <Redirect to ='/all' />
             </Switch>
           </div>

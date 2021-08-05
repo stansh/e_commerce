@@ -53,21 +53,37 @@ export const loadingFailed = errMess => ({
 
 //CART actions
 
-
-export const addItem = productItem => dispatch => {
-    dispatch(addProductToCart(productItem))
-}
-
 export const addProductToCart = productItem  => ({
     type: actions.ADD_PRODUCT_TO_CART,
     payload: productItem
 })
 
-export const removeItem = productItem => dispatch => {
-    dispatch (removeProductFromCart(productItem))
-}
-
 export const removeProductFromCart = productItem => ({
     type: actions.REMOVE_PRODUCT_FROM_CART,
     payload: productItem
 })
+
+export const qtyUp = id  => ({
+    type: actions.CART_QTY_UP,
+    payload: id 
+
+})
+
+export const qtyDown = id => ({
+    type: actions.CART_QTY_DOWN,
+    payload: id
+
+})
+
+
+
+/* export const addItem = productItem => dispatch => {
+    dispatch(addProductToCart(productItem))
+} */
+
+
+
+/* export const removeItem = productItem => dispatch => {
+    dispatch (removeProductFromCart(productItem))
+}
+ */
