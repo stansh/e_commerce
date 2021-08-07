@@ -5,6 +5,7 @@ import {
     CardTitle, CardSubtitle, Button
   } from 'reactstrap';
 import Cart from "./Cart";
+import Search from './Search';
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchProducts, loadProductsData, addItem, addProductToCart} from '../redux/actionCreators'
@@ -37,10 +38,10 @@ function AllProducts (props) {
 
 
 
-  return (
-        
+  return (    
     <div className ='row justify-content-center'>
       <Cart />
+      <Search />
       {props.products.map((product, index) => (  
         <Card className ='col-md-3 mx-2' key ={index}>
           <Link to = {`/${index}`}>

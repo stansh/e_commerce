@@ -12,12 +12,6 @@ export const cartReducer = ( state = {
                     cartItems: state.cartItems.concat(action.payload),
                     };
             } else {
-
-                /* const newData = state.cartItems.filter((item) => item.id !== action.payload.id)
-                action.payload.qty++
-                return {...state, 
-                    cartItems: newData.concat(action.payload)
-                    }; */
                     return {...state, 
                         cartItems: state.cartItems.map(item => {
                             if (item.id === action.payload.id) {
@@ -42,16 +36,22 @@ export const cartReducer = ( state = {
             }    
 
         case actions.CART_QTY_DOWN:
-            //add wht happens when qty is 0
-            return {...state, 
-                cartItems: state.cartItems.map(item => {
-                    if (item.id === action.payload) {
-                        item.qty--
-                    }
-                    return item
-                })
-                    
-            } 
+            const targetItem = state.cartItems.find(item => item.id === action.payload);
+            if (targetItem.qty >= 2) {
+                return {...state, 
+                    cartItems: state.cartItems.map(item => {
+                        if (item.id === action.payload) {
+                            item.qty--
+                        }
+                        return item
+                    })       
+                } 
+
+            } else {
+                const updatedCart = state.cartItems.filter(item => item.id !== action.payload)
+                 return {...state, cartItems: updatedCart}
+            }
+            
 
         default:
             return state;
