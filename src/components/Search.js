@@ -1,26 +1,33 @@
-import React from 'react';
-import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
+import React, { useRef } from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
+import {search} from '../redux/actionCreators'
 
 
 function Search (props) {
+    const inputText = useRef();
+   
 
-    const 
-
-function handle (this.input.value) {
-
-    console.log(value)
-}
+/* function handle () {
+    
+    console.log(inputText.current.value)
+} */
     return (
-        <InputGroup>
-        <InputGroupAddon addonType="append"><Button onclick ={ ()=> handle()}>Seacrh Products</Button></InputGroupAddon>
-
-        <Input   />
-      </InputGroup>
+        <div className = 'container'>
+         <input ref = {inputText}  className ='col-md-4' />
+        <Button onClick ={() => props.search(inputText.current.value)}>Seacrh Products</Button>
+        
+      </div>
 
 
     ) 
 }
 
-export default Search;
+const mapDispatchToProps =  {
+    search: (keywords) => (search(keywords))
 
-//export default withRouter(connect(mapStateToProps)(Product));
+  }
+
+//export default Search;
+
+export default connect(null,mapDispatchToProps)(Search);

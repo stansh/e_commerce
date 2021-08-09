@@ -1,6 +1,6 @@
 import * as actions from './actions'
 import { productsData } from "../shared/productsData";
-import { configureStore } from './store';
+//import { configureStore } from './store';
 
 /* const url = 'https://fakestoreapi.com/products'; */
 
@@ -49,6 +49,11 @@ export const loadingFailed = errMess => ({
     type: actions.LOADING_FAILDED,
     payload: errMess
 });
+
+export const search = keywords => ({
+    type: actions.SHOW_SEARCH_RESULTS,
+    payload: keywords
+})
 
 
 //CART actions

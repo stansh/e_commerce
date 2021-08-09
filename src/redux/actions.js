@@ -7,3 +7,4 @@ export const CART_LOADING = 'CART_LOADIN';
 export const CART_ERROR = 'CART_ERROR';
 export const CART_QTY_UP = 'CART_QTY_UP';
 export const CART_QTY_DOWN = 'CART_QTY_DOWN';
+export const SHOW_SEARCH_RESULTS = 'SHOW_SEARCH_RESULTS';
