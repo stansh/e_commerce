@@ -13,20 +13,12 @@ export const productsReducer = (state = {
         case actions.LOADING_FAILDED:
             return {...state, isLoading: false, errMess: action.payload};
         case actions.SHOW_SEARCH_RESULTS:
-            const keywords = action.payload.split(' ');
-            console.log(keywords)
-            let resultProducts = [];
-            state.products.forEach(item => {
-                for (let i = 0; keywords.length; i++ ) {
-                    console.log(item.title)
-                    if (item.title.toLowerCase().includes(keywords[i].toLowerCase())) {
-                        resultProducts.concat(item)
-                    }    
-                }
-                    //item.title.toLowerCase().includes(word.toLowerCase()) ?  resultProducts.concat(item) : null
-                })
-                   // item.title.toLowerCase().includes(word.toLowerCase()))    
-          
+            //const keywords = action.payload.split(' ');
+            //console.log(keywords)
+           //let resultProducts = [];
+           const resultProducts =  state.products.filter(item => {
+                   return item.title.toLowerCase().includes(action.payload.toLowerCase()) || item.description.toLowerCase().includes(action.payload.toLowerCase())   
+                })         
             console.log(resultProducts)
            //state.searchResults = [];
             return {...state, isLoading: false, errMess: null, searchResults: resultProducts}

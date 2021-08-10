@@ -17,7 +17,8 @@ import { fetchProducts, loadProductsData, addItem, addProductToCart} from '../re
 
 const mapStateToProps = state => { 
   return {
-      products: state.productsReducer.products
+      products: state.productsReducer.products,
+      searchResults: state.productsReducer.searchResults
   };
 };
     
@@ -35,7 +36,27 @@ function AllProducts (props) {
   
 }); 
  
+if (props.searchResults) {
+  return(
+    <div className ='row justify-content-center'>
+      <Cart />
+      <Search />
+      {props.searchResults.map((product, index) => (  
+        <Card className ='col-md-3 mx-2' key ={index}>
+          <Link to = {`/${index}`}>
+            <h3>{product.title}</h3>
+            <h3>{product.name}</h3>
+            <img src={product.image} alt={product.title} width = '100px' />
+            <p>{product.description}</p>
+            
+        </Link>
+        <Button onClick = {() => props.addProductToCart(product)} >Add to Card</Button> 
+        </Card> 
+      ))}
+    </div>
 
+  )
+} else {
 
 
   return (    
@@ -55,7 +76,9 @@ function AllProducts (props) {
         </Card> 
       ))}
     </div>
-)}
+)
+      }
+}
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));
 

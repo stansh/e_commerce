@@ -6,20 +6,12 @@ import {search} from '../redux/actionCreators'
 
 function Search (props) {
     const inputText = useRef();
-   
-
-/* function handle () {
-    
-    console.log(inputText.current.value)
-} */
     return (
         <div className = 'container'>
          <input ref = {inputText}  className ='col-md-4' />
         <Button onClick ={() => props.search(inputText.current.value)}>Seacrh Products</Button>
         
       </div>
-
-
     ) 
 }
 
