@@ -13,14 +13,17 @@ const mapStateToProps = state => {
 
 
 function Product (props) {
-    const {index} = useParams();
+    const {id} = useParams();
+ 
+    const theProduct = props.products.find(prod => prod._id === id)
+    
     return (
         <div className = 'container mt-5 ' >
-            <h1>{props.products[index].title}</h1>
-            <h2>${props.products[index].price}</h2>
-            <img src={props.products[index].image} alt={props.products[index].name} width = '200px' />
-            <p>{props.products[index].description}</p> 
-            <Link className ='btn btn-success' to="/all">All Products</Link>
+            < h1>{theProduct.title}</h1>
+            <h2>${theProduct.price}</h2>
+            <img src={theProduct.image} alt={theProduct.name} width = '200px' />
+            <p>{theProduct.description}</p>  
+            <Link className ='btn btn-success' to="/products">All Products</Link>
         </div> 
     )
 

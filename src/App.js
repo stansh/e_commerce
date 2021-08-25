@@ -22,10 +22,9 @@ function App() {
         <Router>
           <div className="App">
             <Switch>
-                <Route path = '/all' component = {AllProducts} /> 
-                <Route path = '/:index' component = {Product} width = '20%' />
-                
-                <Redirect to ='/all' />
+                <Route path = '/products' exact component = {AllProducts} /> 
+                <Route path = '/products/:id' component = {Product} width = '20%' />  
+                <Redirect to ='/products' />
             </Switch>
           </div>
         </Router>

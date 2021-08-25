@@ -4,12 +4,14 @@ import { productsData } from "../shared/productsData";
 
 /* const url = 'https://fakestoreapi.com/products'; */
 
-const url = 'https://my-json-server.typicode.com/jubs16/Products/Products'
-
+//const url = 'https://my-json-server.typicode.com/jubs16/Products/Products'
+const url = 'http://localhost:3000'
  
-/* export const fetchProducts = () => dispatch => { 
-    dispatch(productsLoading());
-    return fetch(url)
+ export const fetchProducts = () => dispatch => { 
+    console.log(productsData)
+     console.log(' fetchProducts')
+   dispatch(productsLoading());
+    return fetch(url + '/products')
     
     .then(response => {
     if (response.ok) { // true if HTTP response status cose is within 200 - 299
@@ -26,14 +28,16 @@ const url = 'https://my-json-server.typicode.com/jubs16/Products/Products'
             }
     )
     .then(res => res.json())
-    .then(products => dispatch(loadProductsSuccess(products)))
-    .catch(error => dispatch(loadingFailed(error)));
+    //.then(res => console.log("DATA:", res))
+    .then(res => dispatch(loadProductsSuccess(res)))
+    .then(res => console.log("DATA:", res))
+    .catch(error => dispatch(loadingFailed(error)))
     };
-  */
+  
       
-export const loadProductsData = () => dispatch => {
+/* export const loadProductsData = () => dispatch => {
         dispatch(loadProductsSuccess(productsData))
-    }
+    } */
     
     
 export const productsLoading = () => ({
@@ -81,14 +85,26 @@ export const qtyDown = id => ({
 })
 
 
-
-/* export const addItem = productItem => dispatch => {
-    dispatch(addProductToCart(productItem))
-} */
-
-
-
-/* export const removeItem = productItem => dispatch => {
-    dispatch (removeProductFromCart(productItem))
-}
- */
+/* export const fetchProducts = () => dispatch => { 
+    dispatch(productsLoading());
+    return fetch(url)
+    
+    .then(response => {
+    if (response.ok) { // true if HTTP response status cose is within 200 - 299
+        return response;
+    } else {
+        const error = new Error(`Error ${response.status}: ${response.statusText}`);  // bad response from server  
+        error.response = response;
+        throw error;
+    }
+    },
+        error => { // no response from server at all
+            const errMess = new Error(error.message);
+            throw errMess;
+            }
+    )
+    .then(res => res.json())
+    .then(products => dispatch(loadProductsSuccess(products)))
+    .catch(error => dispatch(loadingFailed(error)));
+    };
+  */

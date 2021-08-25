@@ -11,9 +11,9 @@ const mapStateToProps = state => {
     };
 };
 const mapDispatchToProps = {
-    removeProductFromCart: (item) => (removeProductFromCart(item)),
-   qtyUp: (id) => (qtyUp(id)),
-   qtyDown: (id) => (qtyDown(id))
+    removeProductFromCart: (item) => removeProductFromCart(item),
+   qtyUp: (id) => qtyUp(id),
+   qtyDown: (id) => qtyDown(id)
 }
 
 function Cart (props) {
@@ -38,7 +38,7 @@ function Cart (props) {
                 <div key = {index} className='col-4-md'>
                     <h5>{product.title}</h5>
                     <h5>{product.price}</h5>
-                    <h5>Quantity: <span><Button onClick = {() => props.qtyDown(product.id)}>-</Button> {product.qty} <Button onClick = {() => props.qtyUp(product.id)}>+</Button></span></h5>
+                    <h5>Quantity: <span><Button onClick = {() => props.qtyDown(product._id)}>-</Button> {product.qty} <Button onClick = {() => props.qtyUp(product._id)}>+</Button></span></h5>
                     <Button className = 'btn btn-sm btn-info' onClick = {() => props.removeProductFromCart(product)} >Remove Item</Button> 
                 </div>
             ))} 

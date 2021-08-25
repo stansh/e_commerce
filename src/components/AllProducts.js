@@ -8,7 +8,7 @@ import Cart from "./Cart";
 import Search from './Search';
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchProducts, loadProductsData, addItem, addProductToCart} from '../redux/actionCreators'
+import { fetchProducts, loadProductsSuccess, loadProductsData, addItem, addProductToCart} from '../redux/actionCreators'
 
 
 
@@ -23,18 +23,20 @@ const mapStateToProps = state => {
 };
     
 const mapDispatchToProps =  {
-  //fetchProducts: () => (fetchProducts()),
-  loadProductsData: () => (loadProductsData()),
-  addProductToCart: (item) => (addProductToCart(item))
+  fetchProducts: () => fetchProducts(),
+  //loadProductsData: () => (loadProductsData()),
+ addProductToCart: (item) => addProductToCart(item),
+  //loadProductsSuccess: () => (loadProductsSuccess())
 }
 
 function AllProducts (props) {
   
  useEffect(() => {
-  //props.fetchProducts();
-  props.loadProductsData();
+  props.fetchProducts();
+  //props.loadProductsData();
+ // props.loadProductsSuccess()
   
-}); 
+},[]); 
  
 if (props.searchResults) {
   return(
@@ -43,7 +45,7 @@ if (props.searchResults) {
       <Search />
       {props.searchResults.map((product, index) => (  
         <Card className ='col-md-3 mx-2' key ={index}>
-          <Link to = {`/${index}`}>
+          <Link to = {`/products/${product._id}`}>
             <h3>{product.title}</h3>
             <h3>{product.name}</h3>
             <img src={product.image} alt={product.title} width = '100px' />
@@ -65,7 +67,7 @@ if (props.searchResults) {
       <Search />
       {props.products.map((product, index) => (  
         <Card className ='col-md-3 mx-2' key ={index}>
-          <Link to = {`/${index}`}>
+          <Link to = {`/${product._id}`}>
             <h3>{product.title}</h3>
             <h3>{product.name}</h3>
             <img src={product.image} alt={product.title} width = '100px' />

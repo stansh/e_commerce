@@ -5,7 +5,7 @@ export const cartReducer = ( state = {
     }, action) => { 
     switch(action.type) {
         case actions.ADD_PRODUCT_TO_CART:
-        const hasTheItem  = state.cartItems.some((item) => item.id === action.payload.id);
+        const hasTheItem  = state.cartItems.some((item) => item._id === action.payload._id);
             if(!hasTheItem)  { 
                 action.payload.qty = 1
                 return {...state, 
@@ -14,20 +14,20 @@ export const cartReducer = ( state = {
             } else {
                     return {...state, 
                         cartItems: state.cartItems.map(item => {
-                            if (item.id === action.payload.id) {
+                            if (item.id === action.payload._id) {
                                 item.qty++
                             }
                             return item
                         })}
             } 
         case actions.REMOVE_PRODUCT_FROM_CART:
-            const updatedCart = state.cartItems.filter(item => item.id !== action.payload.id)
+            const updatedCart = state.cartItems.filter(item => item._id !== action.payload._id)
             return {...state, cartItems: updatedCart};
 
         case actions.CART_QTY_UP:
             return {...state, 
                 cartItems: state.cartItems.map(item => {
-                    if (item.id === action.payload) {
+                    if (item._id === action.payload) {
                         item.qty++
                     }
                     return item
@@ -36,11 +36,11 @@ export const cartReducer = ( state = {
             }    
 
         case actions.CART_QTY_DOWN:
-            const targetItem = state.cartItems.find(item => item.id === action.payload);
+            const targetItem = state.cartItems.find(item => item._id === action.payload);
             if (targetItem.qty >= 2) {
                 return {...state, 
                     cartItems: state.cartItems.map(item => {
-                        if (item.id === action.payload) {
+                        if (item._id === action.payload) {
                             item.qty--
                         }
                         return item
@@ -48,7 +48,7 @@ export const cartReducer = ( state = {
                 } 
 
             } else {
-                const updatedCart = state.cartItems.filter(item => item.id !== action.payload)
+                const updatedCart = state.cartItems.filter(item => item._id !== action.payload)
                  return {...state, cartItems: updatedCart}
             }
             
