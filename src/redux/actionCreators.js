@@ -62,10 +62,10 @@ export const search = keywords => ({
 
 //CART actions
 
-export const addProductToCart = productItem  => ({
+ export const addProductToCart = productItem  => ({
     type: actions.ADD_PRODUCT_TO_CART,
     payload: productItem
-})
+}) 
 
 export const removeProductFromCart = productItem => ({
     type: actions.REMOVE_PRODUCT_FROM_CART,
@@ -85,26 +85,41 @@ export const qtyDown = id => ({
 })
 
 
-/* export const fetchProducts = () => dispatch => { 
-    dispatch(productsLoading());
-    return fetch(url)
-    
-    .then(response => {
-    if (response.ok) { // true if HTTP response status cose is within 200 - 299
-        return response;
-    } else {
-        const error = new Error(`Error ${response.status}: ${response.statusText}`);  // bad response from server  
-        error.response = response;
-        throw error;
-    }
-    },
-        error => { // no response from server at all
-            const errMess = new Error(error.message);
-            throw errMess;
+
+// updating Cart in Database
+
+export const postNewCartItem = (productItem) => dispatch => {
+ 
+   const newCartItem = Object.create(productItem);
+   console.log(productItem)
+   return fetch ('http://localhost:3000/cart', {
+       method: 'POST',
+       body: JSON.stringify(newCartItem),
+       headers: {
+        "Content-Type": "application/json" 
+        }
+     })
+     .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
             }
-    )
-    .then(res => res.json())
-    .then(products => dispatch(loadProductsSuccess(products)))
-    .catch(error => dispatch(loadingFailed(error)));
-    };
-  */
+        },
+         error => { throw error; }
+        )
+        .then(response => response.json())
+        .then(response => dispatch(addProductToCart(productItem)))
+        .then(response => dispatch (
+            alert('new cart item: ' + JSON.stringify(productItem._id))
+            ))
+
+        .catch(error => {
+            console.log('post new cart item', error.message);
+            alert('new cart item could not be posted\nError: ' + error.message + productItem);
+        })
+}
+
+   

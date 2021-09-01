@@ -8,7 +8,7 @@ import Cart from "./Cart";
 import Search from './Search';
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchProducts, loadProductsSuccess, loadProductsData, addItem, addProductToCart} from '../redux/actionCreators'
+import { fetchProducts, loadProductsSuccess, loadProductsData, addItem, addProductToCart,postNewCartItem} from '../redux/actionCreators'
 
 
 
@@ -25,8 +25,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps =  {
   fetchProducts: () => fetchProducts(),
   //loadProductsData: () => (loadProductsData()),
- addProductToCart: (item) => addProductToCart(item),
+ //addProductToCart: (item) => addProductToCart(item),
   //loadProductsSuccess: () => (loadProductsSuccess())
+  postNewCartItem: (item) => postNewCartItem(item),
 }
 
 function AllProducts (props) {
@@ -47,12 +48,13 @@ if (props.searchResults) {
         <Card className ='col-md-3 mx-2' key ={index}>
           <Link to = {`/products/${product._id}`}>
             <h3>{product.title}</h3>
+            <h3>${product.price}</h3>
             <h3>{product.name}</h3>
             <img src={product.image} alt={product.title} width = '100px' />
             <p>{product.description}</p>
             
         </Link>
-        <Button onClick = {() => props.addProductToCart(product)} >Add to Card</Button> 
+        <Button onClick = {() => props.postNewCartItem(product)} >Add to Card</Button> 
         </Card> 
       ))}
     </div>
@@ -69,6 +71,7 @@ if (props.searchResults) {
         <Card className ='col-md-3 mx-2' key ={index}>
           <Link to = {`/${product._id}`}>
             <h3>{product.title}</h3>
+            <h3>{product.price}</h3>
             <h3>{product.name}</h3>
             <img src={product.image} alt={product.title} width = '100px' />
             <p>{product.description}</p>
