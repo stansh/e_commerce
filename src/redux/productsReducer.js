@@ -13,15 +13,15 @@ export const productsReducer = (state = {
         case actions.LOADING_FAILDED:
             return {...state, isLoading: false, errMess: action.payload};
         case actions.SHOW_SEARCH_RESULTS:
-            //const keywords = action.payload.split(' ');
-            //console.log(keywords)
-           //let resultProducts = [];
-           const resultProducts =  state.products.filter(item => {
-                   return item.title.toLowerCase().includes(action.payload.toLowerCase()) || item.description.toLowerCase().includes(action.payload.toLowerCase())   
-                })         
-            console.log(resultProducts)
-           //state.searchResults = [];
-            return {...state, isLoading: false, errMess: null, searchResults: resultProducts}
+            console.log(state.products)
+        let resultProducts =  state.products.filter(item => {
+            return item.title.toLowerCase().includes(action.payload.toLowerCase()) || item.description.toLowerCase().includes(action.payload.toLowerCase())                        
+            })
+            if (state.products.length === resultProducts.length) {
+                resultProducts = null
+            }
+        
+            return {...state, isLoading: false, errMess: null, searchResults: resultProducts, products: state.products}
         default:
             return state;
     }

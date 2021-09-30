@@ -24,68 +24,65 @@ const mapStateToProps = state => {
     
 const mapDispatchToProps =  {
   fetchProducts: () => fetchProducts(),
-  //loadProductsData: () => (loadProductsData()),
- //addProductToCart: (item) => addProductToCart(item),
-  //loadProductsSuccess: () => (loadProductsSuccess())
   postNewCartItem: (item) => postNewCartItem(item),
 }
 
+
 function AllProducts (props) {
   
- useEffect(() => {
-  props.fetchProducts();
-  //props.loadProductsData();
- // props.loadProductsSuccess()
+   useEffect(() => {
+    props.fetchProducts();
+
+  },[]); 
+
   
-},[]); 
- 
-if (props.searchResults) {
-  return(
-    <div className ='row justify-content-center'>
-      <Cart />
-      <Search />
-      {props.searchResults.map((product, index) => (  
-        <Card className ='col-md-3 mx-2' key ={index}>
-          <Link to = {`/products/${product._id}`}>
-            <h3>{product.title}</h3>
-            <h3>${product.price}</h3>
-            <h3>{product.name}</h3>
-            <img src={product.image} alt={product.title} width = '100px' />
-            <p>{product.description}</p>
-            
-        </Link>
-        <Button onClick = {() => props.postNewCartItem(product)} >Add to Card</Button> 
-        </Card> 
-      ))}
-    </div>
+  if (props.searchResults !== null) {
+    return(
+      <div className ='row justify-content-center'>
+        <Cart />
+        <Search />
+        {props.searchResults.map((product, index) => (  
+          <Card className ='col-md-3 mx-2' key ={index}>
+            <Link to = {`/products/${product._id}`}>
+              <h3>{product.title}</h3>
+              <h3>${product.price}</h3>
+              <h3>{product.name}</h3>
+              <img src={product.image} alt={product.title} width = '100px' />
+              <p>{product.description}</p>
+              
+          </Link>
+          <Button onClick = {() => props.postNewCartItem(product)} >Add to Card</Button> 
+          </Card> 
+        ))}
+      </div>
 
+    )
+  } else {
+
+
+    return (    
+      <div className ='row justify-content-center'>
+        <Cart />
+        <Search />
+        {props.products.map((product, index) => (  
+          <Card className ='col-md-3 mx-2' key ={index}>
+            <Link to = {`/products/${product._id}`}>
+              <h3>{product.title}</h3>
+              <h3>${product.price}</h3>
+              <h3>{product.name}</h3>
+              <img src={product.image} alt={product.title} width = '100px' />
+              <p>{product.description}</p>
+              
+          </Link>
+          <Button onClick = {() => props.postNewCartItem(product)}>Add to Card</Button> 
+          </Card> 
+        ))}
+      </div>
   )
-} else {
+        }
+  }
 
-
-  return (    
-    <div className ='row justify-content-center'>
-      <Cart />
-      <Search />
-      {props.products.map((product, index) => (  
-        <Card className ='col-md-3 mx-2' key ={index}>
-          <Link to = {`/${product._id}`}>
-            <h3>{product.title}</h3>
-            <h3>{product.price}</h3>
-            <h3>{product.name}</h3>
-            <img src={product.image} alt={product.title} width = '100px' />
-            <p>{product.description}</p>
-            
-        </Link>
-        <Button onClick = {() => props.addProductToCart(product)} >Add to Card</Button> 
-        </Card> 
-      ))}
-    </div>
-)
-      }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));
 
 //export default withRouter(AllProducts);
     

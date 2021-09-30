@@ -3,7 +3,7 @@ import {Card, Button} from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { removeProductFromCart,qtyUp, qtyDown} from '../redux/actionCreators';
+import { removeProductFromCart, putQtyDown,putQtyUp} from '../redux/actionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -11,13 +11,14 @@ const mapStateToProps = state => {
     };
 };
 const mapDispatchToProps = {
-    removeProductFromCart: (item) => removeProductFromCart(item),
-   qtyUp: (id) => qtyUp(id),
-   qtyDown: (id) => qtyDown(id)
+    removeProductFromCart: (id) => removeProductFromCart(id),
+    putQtyUp: (id) => putQtyUp(id),
+    putQtyDown: (id) => putQtyDown(id),
+   
 }
 
 function Cart (props) {
- console.log(props)
+ 
 
   if (!props.cart) {
 
@@ -38,8 +39,8 @@ function Cart (props) {
                 <div key = {index} className='col-4-md'>
                     <h5>{product.title}</h5>
                     <h5>{product.price}</h5>
-                    <h5>Quantity: <span><Button onClick = {() => props.qtyDown(product._id)}>-</Button> {product.qty} <Button onClick = {() => props.qtyUp(product._id)}>+</Button></span></h5>
-                    <Button className = 'btn btn-sm btn-info' onClick = {() => props.removeProductFromCart(product)} >Remove Item</Button> 
+                    <h5>Quantity: <span><Button onClick = {() => props.putQtyDown(product._id)}>-</Button> {product.qty} <Button onClick = {() => props.putQtyUp(product._id)}>+</Button></span></h5>
+                    <Button className = 'btn btn-sm btn-info' onClick = {() => props.removeProductFromCart(product._id)} >Remove Item</Button> 
                 </div>
             ))} 
         </Card>

@@ -16,9 +16,9 @@ const persistor = persistStore(store);
 function App() {
   return (
     <Provider  store = {store}>
-      <PersistGate
-         loading = {<div>Loading...</div>}  
-         persistor = {persistor} >  
+      {/* <PersistGate
+         loading = {<div>Loading...</div>}  >  */}
+         {/* persistor = {persistor}   */}
         <Router>
           <div className="App">
             <Switch>
@@ -28,7 +28,7 @@ function App() {
             </Switch>
           </div>
         </Router>
-      </PersistGate>  
+      {/* </PersistGate>   */}
     </Provider>
   );
 }

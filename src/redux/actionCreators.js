@@ -1,5 +1,6 @@
 import * as actions from './actions'
 import { productsData } from "../shared/productsData";
+import { useParams } from 'react-router';
 //import { configureStore } from './store';
 
 /* const url = 'https://fakestoreapi.com/products'; */
@@ -8,8 +9,6 @@ import { productsData } from "../shared/productsData";
 const url = 'http://localhost:3000'
  
  export const fetchProducts = () => dispatch => { 
-    console.log(productsData)
-     console.log(' fetchProducts')
    dispatch(productsLoading());
     return fetch(url + '/products')
     
@@ -30,7 +29,7 @@ const url = 'http://localhost:3000'
     .then(res => res.json())
     //.then(res => console.log("DATA:", res))
     .then(res => dispatch(loadProductsSuccess(res)))
-    .then(res => console.log("DATA:", res))
+    //.then(res => console.log("DATA:", res))
     .catch(error => dispatch(loadingFailed(error)))
     };
   
@@ -67,9 +66,9 @@ export const search = keywords => ({
     payload: productItem
 }) 
 
-export const removeProductFromCart = productItem => ({
+export const removeProd = id => ({
     type: actions.REMOVE_PRODUCT_FROM_CART,
-    payload: productItem
+    payload: id
 })
 
 export const qtyUp = id  => ({
@@ -87,13 +86,97 @@ export const qtyDown = id => ({
 
 
 // updating Cart in Database
+ 
+export const putQtyUp = (id) => dispatch =>  {
+
+
+    const qty = {
+        _id: id,
+        operation: "up"
+    }
+ return fetch (url + '/cart', {
+     method: 'PUT',
+     body: JSON.stringify(qty),
+     headers: {
+      "Content-Type": "application/json" 
+      }
+   })
+   .then(response => {
+          if (response.ok) {
+              return response;
+          } else {
+              const error = new Error(`Error ${response.status}: ${response.statusText}`);
+              error.response = response;
+              throw error;
+          }
+      },
+       error => { throw error; }
+      )
+    .then(response => response.json())
+    .then(response => dispatch(qtyUp(id)))
+    
+    .then(response => dispatch (
+        alert('cart item quantity increased: ' + JSON.stringify(id))
+        ))
+
+   /*  .catch(error => {
+        
+        console.log('quantity didnt update\nError: ' + error.message);
+    }) */
+}  
+
+export const putQtyDown = (id) => dispatch =>  {
+    const qty = {
+        _id: id,
+        operation: "down"
+    }
+ return fetch (url + '/cart', {
+     method: 'PUT',
+     body: JSON.stringify(qty),
+     headers: {
+      "Content-Type": "application/json" 
+      }
+   })
+   .then(response => {
+          if (response.ok) {
+              return response;
+          } else {
+              const error = new Error(`Error ${response.status}: ${response.statusText}`);
+              error.response = response;
+              throw error;
+          }
+      },
+       error => { throw error; }
+      )
+    .then(response => response.json())
+    .then(response => dispatch(qtyDown(id)))
+    /* .then(response => dispatch (
+        alert('cart item quantity decreased: ' + JSON.stringify(id))
+        )) */
+
+    .catch(error => {
+        
+        console.log('quantity didnt update\nError: ' + error.message);
+    })
+} 
+
 
 export const postNewCartItem = (productItem) => dispatch => {
  
-   const newCartItem = Object.create(productItem);
-   console.log(productItem)
-   return fetch ('http://localhost:3000/cart', {
-       method: 'POST',
+   const newCartItem = {
+      _id: productItem._id,
+      title: productItem.title,
+      price: productItem.price,
+      description: productItem.description,
+      category: productItem.category,
+      image: productItem.image,
+      qty: 1
+   }
+
+ 
+
+   return fetch (url + '/cart', {
+       method: "POST",
        body: JSON.stringify(newCartItem),
        headers: {
         "Content-Type": "application/json" 
@@ -101,6 +184,7 @@ export const postNewCartItem = (productItem) => dispatch => {
      })
      .then(response => {
             if (response.ok) {
+                console.log(response)
                 return response;
             } else {
                 const error = new Error(`Error ${response.status}: ${response.statusText}`);
@@ -110,16 +194,52 @@ export const postNewCartItem = (productItem) => dispatch => {
         },
          error => { throw error; }
         )
-        .then(response => response.json())
-        .then(response => dispatch(addProductToCart(productItem)))
-        .then(response => dispatch (
-            alert('new cart item: ' + JSON.stringify(productItem._id))
-            ))
-
-        .catch(error => {
-            console.log('post new cart item', error.message);
-            alert('new cart item could not be posted\nError: ' + error.message + productItem);
-        })
+    .then(response => response.json())
+    .then(response => dispatch(addProductToCart(productItem)))
+    /* .then(response => dispatch (
+        alert('added cart item: ' + JSON.stringify(productItem._id))
+       )) */
+     
+    .catch(error => {
+        console.log('new cart item could not be posted\nError: ' + error) ;     
+    })   
 }
-
    
+export const removeProductFromCart = (id) => dispatch => {
+  
+
+    const idToDelete = { _id: id }
+ 
+    return fetch (url + '/cart', {
+        method: "DELETE",
+        body: JSON.stringify(idToDelete),
+        headers: {
+         "Content-Type": "application/json" 
+         }
+      })
+      .then(response => {
+             if (response.ok) {
+                 console.log(response)
+                 return response;
+             } else {
+                 const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                 error.response = response;
+                 throw error;
+             }
+         },
+          error => { throw error; }
+         )
+     .then(response => response.json())
+     .then(response => dispatch(removeProd(id)))
+    
+     .then(response => dispatch (
+         alert('deleted item:' + JSON.stringify(id))
+         ))
+      
+     .catch(error => {
+        console.log(' cart item could not be deleted\nError: ' + error.message ) ;
+        
+     })
+     
+ }
+    
