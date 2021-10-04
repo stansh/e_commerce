@@ -1,11 +1,13 @@
 
 import React,{useState,useEffect, useFetching}from "react";
 import {
-    Card, CardImg, CardText, CardBody,
+    Card, Jumbotron, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
   } from 'reactstrap';
 import Cart from "./Cart";
 import Search from './Search';
+import Image from './Image';
+
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchProducts, loadProductsSuccess, loadProductsData, addItem, addProductToCart,postNewCartItem} from '../redux/actionCreators'
@@ -36,9 +38,10 @@ function AllProducts (props) {
   },[]); 
 
   
-  if (props.searchResults !== null) {
-    return(
-      <div className ='row justify-content-center'>
+  if (props.searchResults) {
+    return (
+      <div className = 'container'>
+        <div className ='row justify-content-center'>
         <Cart />
         <Search />
         {props.searchResults.map((product, index) => (  
@@ -48,38 +51,41 @@ function AllProducts (props) {
               <h3>${product.price}</h3>
               <h3>{product.name}</h3>
               <img src={product.image} alt={product.title} width = '100px' />
-              <p>{product.description}</p>
-              
-          </Link>
+            </Link>
+            <p>{product.description}</p>
           <Button onClick = {() => props.postNewCartItem(product)} >Add to Card</Button> 
           </Card> 
         ))}
+        </div>
       </div>
+      
 
     )
   } else {
-
-
-    return (    
-      <div className ='row justify-content-center'>
-        <Cart />
-        <Search />
-        {props.products.map((product, index) => (  
-          <Card className ='col-md-3 mx-2' key ={index}>
-            <Link to = {`/products/${product._id}`}>
-              <h3>{product.title}</h3>
-              <h3>${product.price}</h3>
-              <h3>{product.name}</h3>
-              <img src={product.image} alt={product.title} width = '100px' />
-              <p>{product.description}</p>
-              
-          </Link>
-          <Button onClick = {() => props.postNewCartItem(product)}>Add to Card</Button> 
-          </Card> 
-        ))}
-      </div>
-  )
-        }
+      return (
+        <>
+        <Image />
+        <div className = 'container'>
+          <div className ='row justify-content-center'>
+          <Cart />
+          <Search  />
+          {props.products.map((product, index) => (  
+            <Card className ='prodCard col-sm-3 mx-1' key ={index}>
+              <Link to = {`/products/${product._id}`}>
+                <h4>{product.title}</h4>
+                <h3>${product.price}</h3>
+                <h3>{product.name}</h3>
+                <img src={product.image} alt={product.title} width = '100px' /> 
+              </Link>
+              <p className = 'mt-auto'>{product.description}</p>
+              <Button className = 'btn mt-auto' onClick = {() => props.postNewCartItem(product)}>Add to Card</Button> 
+            </Card> 
+          ))}
+          </div>
+        </div>  
+        </>
+      )
+    }
   }
 
   export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));

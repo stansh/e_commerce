@@ -115,9 +115,9 @@ export const putQtyUp = (id) => dispatch =>  {
     .then(response => response.json())
     .then(response => dispatch(qtyUp(id)))
     
-    .then(response => dispatch (
+    /* .then(response => dispatch (
         alert('cart item quantity increased: ' + JSON.stringify(id))
-        ))
+        )) */
 
    /*  .catch(error => {
         
@@ -232,9 +232,9 @@ export const removeProductFromCart = (id) => dispatch => {
      .then(response => response.json())
      .then(response => dispatch(removeProd(id)))
     
-     .then(response => dispatch (
+     /* .then(response => dispatch (
          alert('deleted item:' + JSON.stringify(id))
-         ))
+         )) */
       
      .catch(error => {
         console.log(' cart item could not be deleted\nError: ' + error.message ) ;
