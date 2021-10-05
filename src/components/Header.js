@@ -5,27 +5,28 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink,
-  Jumbotron,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
-  Button 
+  NavItem
 } from 'reactstrap';
+import { Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+
+
+const mapStateToProps = state => {
+  return {
+      cart: state.cartReducer.cartItems
+  };
+};
+
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div className ='sticky-top' >
       <Navbar  className ='' expand="lg">
         <div className = 'container'>
-        <NavbarBrand href="/">MERN SHOP</NavbarBrand>
+        <NavbarBrand href="/"><h2> <snap id = 'mern' >MERN</snap>shop</h2></NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
@@ -43,7 +44,7 @@ const Header = (props) => {
             </NavItem>
            
           </Nav>
-          <div id ='button' className >Cart</div>
+          <Link to = {`/cart`} id ='cartIcon' href="/cart" >Cart {props.cart.length}</Link>
           
         </Collapse>
 
@@ -55,4 +56,4 @@ const Header = (props) => {
   );
 }
 
-export default Header;
+export default connect(mapStateToProps,null)(Header);

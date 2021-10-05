@@ -3,6 +3,8 @@ import './App.css';
 import { Provider } from 'react-redux';
 import AllProducts from './components/AllProducts';
 import Product from './components/Product';
+import Cart from './components/Cart';
+
 import Header from './components/Header';
 import {BrowserRouter as Router, Switch,Route,Redirect } from 'react-router-dom';
 import {configureStore} from './redux/store';
@@ -28,6 +30,8 @@ function App() {
             <Switch>
                 <Route path = '/products' exact component = {AllProducts} /> 
                 <Route path = '/products/:id' component = {Product} width = '20%' />  
+                <Route path = '/cart' component = {Cart} width = '20%' />  
+
                 <Redirect to ='/products' />
             </Switch>
           </div>

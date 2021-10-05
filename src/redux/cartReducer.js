@@ -4,6 +4,12 @@ export const cartReducer = ( state = {
     cartItems: [], 
     }, action) => { 
     switch(action.type) {
+        case actions.CART_ITEMS_LOADING:
+            return {...state, isLoading: true, errMess: null, cartItems:[]};
+        case actions.CART_ITEMS_SUCCESS:
+            return {...state, isLoading: false, errMess: null, cartItems: action.payload};
+        case actions.CART_ITEMS_FAILDED:
+            return {...state, isLoading: false, errMess: action.payload};
         case actions.ADD_PRODUCT_TO_CART:
         const hasTheItem  = state.cartItems.some((item) => item._id === action.payload._id);
             if(!hasTheItem)  { 

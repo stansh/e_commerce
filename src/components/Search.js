@@ -7,10 +7,9 @@ import {search} from '../redux/actionCreators'
 function Search (props) {
     const inputText = useRef();
     return (
-        <div className = 'container'>
-         <input ref = {inputText}  className ='col-md-4' />
-        <Button onClick ={() => props.search(inputText.current.value)}>Seacrh Products</Button>
-        
+      <div className = 'container my-3'>
+        <input ref = {inputText}  className ='col-md-4' />
+        <Button  id= 'searchBtn' onClick ={() => props.search(inputText.current.value)}>Seacrh Products</Button>
       </div>
     ) 
 }

@@ -61,6 +61,20 @@ export const search = keywords => ({
 
 //CART actions
 
+export const cartItemsLoading = () => ({
+    type: actions.CART_ITEMS_LOADING
+    }); 
+
+export const cartItemsSuccess = data => ({
+    type: actions.CART_ITEMS_SUCCESS,
+    payload: data
+});
+
+export const cartItemsFailed = errMess => ({
+    type: actions.CART_ITEMS_FAILDED,
+    payload: errMess
+});
+
  export const addProductToCart = productItem  => ({
     type: actions.ADD_PRODUCT_TO_CART,
     payload: productItem
@@ -86,6 +100,31 @@ export const qtyDown = id => ({
 
 
 // updating Cart in Database
+
+export const fetchCartItems = () => dispatch => { 
+    dispatch(cartItemsLoading());
+     return fetch(url + '/cart')
+     
+     .then(response => {
+     if (response.ok) { // true if HTTP response status cose is within 200 - 299
+         return response;
+     } else {
+         const error = new Error(`Error ${response.status}: ${response.statusText}`);  // bad response from server  
+         error.response = response;
+         throw error;
+     }
+     },
+         error => { // no response from server at all
+             const errMess = new Error(error.message);
+             throw errMess;
+             }
+     )
+     .then(res => res.json())
+     //.then(res => console.log("DATA:", res))
+     .then(res => dispatch(cartItemsSuccess(res)))
+     //.then(res => console.log("DATA:", res))
+     .catch(error => dispatch(cartItemsFailed(error)))
+     };
  
 export const putQtyUp = (id) => dispatch =>  {
 
@@ -115,14 +154,14 @@ export const putQtyUp = (id) => dispatch =>  {
     .then(response => response.json())
     .then(response => dispatch(qtyUp(id)))
     
-    /* .then(response => dispatch (
+   /*  .then(response => dispatch (
         alert('cart item quantity increased: ' + JSON.stringify(id))
         )) */
 
-   /*  .catch(error => {
+    .catch(error => {
         
         console.log('quantity didnt update\nError: ' + error.message);
-    }) */
+    }) 
 }  
 
 export const putQtyDown = (id) => dispatch =>  {
@@ -196,10 +235,10 @@ export const postNewCartItem = (productItem) => dispatch => {
         )
     .then(response => response.json())
     .then(response => dispatch(addProductToCart(productItem)))
-    /* .then(response => dispatch (
+   /*  .then(response => dispatch (
         alert('added cart item: ' + JSON.stringify(productItem._id))
-       )) */
-     
+       ))
+      */
     .catch(error => {
         console.log('new cart item could not be posted\nError: ' + error) ;     
     })   
