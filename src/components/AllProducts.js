@@ -10,7 +10,7 @@ import Image from './Image';
 
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchProducts, loadProductsSuccess, loadProductsData, addItem, addProductToCart,postNewCartItem} from '../redux/actionCreators'
+import { fetchProducts,fetchCartItems, loadProductsSuccess, loadProductsData, addItem, addProductToCart,postNewCartItem} from '../redux/actionCreators'
 
 
 
@@ -27,6 +27,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps =  {
   fetchProducts: () => fetchProducts(),
   postNewCartItem: (item) => postNewCartItem(item),
+  fetchCartItems: (item) => fetchCartItems(item),
+
 }
 
 
@@ -34,6 +36,7 @@ function AllProducts (props) {
   
    useEffect(() => {
     props.fetchProducts();
+    props.fetchCartItems();
 
   },[]); 
 

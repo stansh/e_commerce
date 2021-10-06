@@ -44,8 +44,7 @@ const Header = (props) => {
             </NavItem>
            
           </Nav>
-          <Link to = {`/cart`} id ='cartIcon' href="/cart" >Cart {props.cart.length}</Link>
-          
+          <Link to = {`/cart`} id ='cartIcon' href="/cart">Cart {props.cart.length}</Link>
         </Collapse>
 
         </div>

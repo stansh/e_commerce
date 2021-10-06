@@ -54,11 +54,12 @@ code {
 }
 
 .navbar-brand {
-  color: rgb(75, 219, 255);
+  color: #4BDBFF;
+
 }
 
 .nav-item a {
-  color: rgb(75, 219, 255);
+  color: #4BDBFF;
   text-decoration: none;
   padding-left: 1rem;
   
@@ -77,6 +78,7 @@ code {
 
 #cartIcon {
   color: white;
+ 
   margin-left: auto;
   text-decoration: none;
 }
@@ -123,4 +125,8 @@ code {
 
 #orderInfo {
   font-family: 'Roboto Condensed', sans-serif;
+  background-color: #fae3ce;
+  border-radius: 0px;
+  border-width: 0px;
+  /* max-height: 300px; */
 }

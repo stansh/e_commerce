@@ -29,7 +29,7 @@ const url = 'http://localhost:3000'
     .then(res => res.json())
     //.then(res => console.log("DATA:", res))
     .then(res => dispatch(loadProductsSuccess(res)))
-    //.then(res => console.log("DATA:", res))
+    .then(res => console.log("DATA:", res))
     .catch(error => dispatch(loadingFailed(error)))
     };
   
