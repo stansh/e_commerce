@@ -32,23 +32,41 @@ function Cart (props) {
     })
 
 
-    async function handleToken(token, props) {
-        //console.log({token, addresses})
-        const response = await fetch(
-            'http://localhost:3001/checkout', {
-            method: 'POST',
-            body: {token, "some"},
-            });
+   
+     async function handleToken(token,total) {
+      console.log(token)
+        const paymentData = {
+            token: token,
+            amount: total
+            //product: props.cart[0].id
+        };
+      
+        // Use fetch to send the token ID and any other payment data to your server.
+        // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+        const response = await fetch('http://localhost:3000/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(paymentData),
+        });
+      
+        // Return and display the result of the charge.
+        console.log(response)
+        return response;
+      }
 
-            const {status} = response.data;
-            if (status === "success") {
-                alert("Success! Check email for details", { type: "success" });
-              } else {
-                alert("Something went wrong", { type: "error" });
-              }
-            }
-    
 
+
+     /*    var stripeHandler  = StripeCheckout.configure({
+          key: 'k_test_51JhRBrECGNUUIhhjH0ft95P6jY80N538YN7d1xaAn0kkfW0aulfmEBfphaMOZxD6v7USiLeYUPmNfFSkELtVkb7L00y1SboNnB',
+          locale: 'auto',
+          token: function (token){
+              console.log(token)
+          }
+
+      })    
+  */
 
 
 
