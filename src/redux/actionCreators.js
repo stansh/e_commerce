@@ -205,7 +205,7 @@ export const postNewCartItem = (productItem) => dispatch => {
    const newCartItem = {
       _id: productItem._id,
       title: productItem.title,
-      price: productItem.price,
+      price: productItem.price.toFixed(2),
       description: productItem.description,
       category: productItem.category,
       image: productItem.image,

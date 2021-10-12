@@ -9,7 +9,9 @@ export const productsReducer = (state = {
         case actions.PRODUCTS_LOADING:
             return {...state, isLoading: true, errMess: null, products:[]};
         case actions.LOAD_PRODUCTS_SUCCESS:
-            return {...state, isLoading: false, errMess: null, products: action.payload};
+            const correctedPrice = action.payload.map(prod => Object.defineProperty(prod,"price",{value:prod.price / 100}))
+            console.log(correctedPrice)
+            return {...state, isLoading: false, errMess: null, products: correctedPrice};
         case actions.LOADING_FAILDED:
             return {...state, isLoading: false, errMess: action.payload};
         case actions.SHOW_SEARCH_RESULTS:
