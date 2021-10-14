@@ -125,7 +125,7 @@ code {
 
 #orderInfo {
   font-family: 'Roboto Condensed', sans-serif;
-  background-color: #fae3ce;
+  /* background-color: #fae3ce */;
   border-radius: 0px;
   border-width: 0px;
   height: 200px;
