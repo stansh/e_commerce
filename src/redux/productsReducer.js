@@ -10,6 +10,7 @@ export const productsReducer = (state = {
             return {...state, isLoading: true, errMess: null, products:[]};
         case actions.LOAD_PRODUCTS_SUCCESS:
             const correctedPrice = action.payload.map(prod => Object.defineProperty(prod,"price",{value:prod.price / 100}))
+            console.log(action.payload)
             console.log(correctedPrice)
             return {...state, isLoading: false, errMess: null, products: correctedPrice};
         case actions.LOADING_FAILDED:

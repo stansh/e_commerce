@@ -11,9 +11,10 @@ const url = 'http://localhost:3000'
  export const fetchProducts = () => dispatch => { 
    dispatch(productsLoading());
     return fetch(url + '/products')
-    
     .then(response => {
     if (response.ok) { // true if HTTP response status cose is within 200 - 299
+       // console.log(response)
+        
         return response;
     } else {
         const error = new Error(`Error ${response.status}: ${response.statusText}`);  // bad response from server  
@@ -29,15 +30,11 @@ const url = 'http://localhost:3000'
     .then(res => res.json())
     //.then(res => console.log("DATA:", res))
     .then(res => dispatch(loadProductsSuccess(res)))
-    .then(res => console.log("DATA:", res))
+    //.then(res => console.log("DATA:", res))
     .catch(error => dispatch(loadingFailed(error)))
     };
   
       
-/* export const loadProductsData = () => dispatch => {
-        dispatch(loadProductsSuccess(productsData))
-    } */
-    
     
 export const productsLoading = () => ({
     type: actions.PRODUCTS_LOADING
@@ -269,12 +266,7 @@ export const removeProductFromCart = (id) => dispatch => {
           error => { throw error; }
          )
      .then(response => response.json())
-     .then(response => dispatch(removeProd(id)))
-    
-     /* .then(response => dispatch (
-         alert('deleted item:' + JSON.stringify(id))
-         )) */
-      
+     .then(response => dispatch(removeProd(id)))    
      .catch(error => {
         console.log(' cart item could not be deleted\nError: ' + error.message ) ;
         

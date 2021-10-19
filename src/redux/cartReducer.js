@@ -28,9 +28,13 @@ export const cartReducer = ( state = {
                         })}
             } 
         case actions.REMOVE_PRODUCT_FROM_CART:
-            const updatedCart = state.cartItems.filter(item => item._id !== action.payload)
-            return {...state, cartItems: updatedCart};
-
+            if (action.payload == null){
+                return {...state, cartItems: []}
+            } else {
+                const updatedCart = state.cartItems.filter(item => item._id !== action.payload)
+                return {...state, cartItems: updatedCart};
+            }
+            
         case actions.CART_QTY_UP:
             return {...state, 
                 cartItems: state.cartItems.map(item => {

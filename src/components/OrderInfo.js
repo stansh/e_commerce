@@ -7,7 +7,7 @@ const mapStateToProps = state => {
   };
 };
 
-/* connect(mapStateToProps,null)(Submit); */
+
 
 function Submit ({cartItems}) {
 
@@ -19,51 +19,51 @@ function Submit ({cartItems}) {
   });
 
  let productList = cartItems.map(item => item.title)
-    console.log(productList)
-
-  async function handleSubmit() {
-    await fetch('http://localhost:3000/create-checkout-session', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-            
-
-        },
-        body:JSON.stringify(cartItems)
-        })
-    .then(res => {
-        if (res.ok) {
-            //alert("Purchase completed!" {productList})
-            return res;
-        } else {
-            const error = new Error(`Error ${res.status}: ${res.statusText}`);
-            error.res = res;
-            throw error;
-        }
-    },
-    error => { throw error; }
-    )
-    .catch(error => {
-        console.log('Error: ' + error.message) ;     
-    })  
+   
+ 
+     
+  
+       fetch('http://localhost:3001/create-checkout-session', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'              
+          },
+          body:JSON.stringify( {quantity: "3"})
+          })
+      .then(res => {
+          if (res.ok) {
+              //alert("Purchase completed!" {productList})
+              return res;
+          } else {
+              const error = new Error(`Error ${res.status}: ${res.statusText}`);
+              error.res = res;
+              throw error;
+          }
+      },
+      error => { throw error; }
+      )
+      
+      .catch(error => {
+          console.log('Error: ' + error) ;     
+      })   
+      
     
-  }
 
   return (
     <div  className= 'card col-md-3'>
     <h5>Your Order Total </h5>
     <h2>{total.toFixed(2)}</h2>
-    <Button onClick = {handleSubmit}>Proceed to checkout</Button>
+    <Button >Proceed to checkout</Button>
     
     </div>
        
   )
     
-}
+} 
+ 
+ 
 
- //connect(mapStateToProps,null)(Submit); 
-
- /* const Submit = () => (
+  /* const Submit = () => (
 
   <section>
 
@@ -99,7 +99,7 @@ function Submit ({cartItems}) {
 
   </section>
 
-);
+); 
  */
 
 

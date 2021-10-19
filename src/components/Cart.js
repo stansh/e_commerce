@@ -1,18 +1,14 @@
 import React, { useEffect, useState  }from "react";
-import {Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Table} from 'reactstrap';
+import { Button, Table} from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeProductFromCart, putQtyDown,putQtyUp,fetchCartItems} from '../redux/actionCreators';
 
-
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import OrderInfo from "./OrderInfo";
+import StripeCheckout from "react-stripe-checkout";
 
 
   
-const promise = loadStripe("pk_test_51JhRBrECGNUUIhhjpx6b8PpifvHuopYIQoWDrcnJpY8uvFFQlenQj1Dxv45LGMLRIH1bfqWOUd27GYqTlVMH7jP60022nrPrgl");
+
 
 const mapStateToProps = state => {
     return {
@@ -24,72 +20,83 @@ const mapDispatchToProps = {
     removeProductFromCart: (id) => removeProductFromCart(id),
     putQtyUp: (id) => putQtyUp(id),
     putQtyDown: (id) => putQtyDown(id),
-    fetchCartItems: () =>  fetchCartItems()
-   
+    fetchCartItems: () =>  fetchCartItems() 
 }
 
 
+
 function Cart (props) {
-   
-    useEffect(() => {
-        props.fetchCartItems();
-       
-
+    const [success, setSuccess] = useState(false)
+    
   
-      },[]); 
-
-   
     let total = 0;
-    props.cart.forEach(item => {
-          total = total + (item.price * item.qty)
-          Number(total).toFixed()
-    });
-  /*    let productList = props.cart.map(item => item.title)
-    console.log(productList)
+
+    useEffect(() => {
+        props.fetchCartItems();   
+      },[]); 
+   
+    if (props.cart.length !== 0) {
+        props.cart.forEach(item => {
+            total = total + (item.price * item.qty)
+            
+        });
+    }
+
+
 
     async function handleToken(token) {
+        let productList = props.cart.map(item => item.title)
         const paymentData = {
             token: token,
-            amount: total,
-
-    }; */
-
-    /* await fetch('http://localhost:3000/checkout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(paymentData)
-        })
-        .then(res => {
-            if (res.ok) {
-                console.log(res)
-                alert("Purchase completed!\n" +  {paymentData})
-                return res;
-            } else {
-                const error = new Error(`Error ${res.status}: ${res.statusText}`);
-                error.res = res;
-                throw error;
-            }
-        },
-        error => { throw error; }
-        )
-        .catch(error => {
-            console.log('Error: ' + error.message) ;     
-        })  
-        
+            amount: total.toFixed(2),
+            items: productList
+        };
+        await fetch('http://localhost:3000/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(paymentData)
+            },)
+            .then(res => {
+                if (res.ok) {
+                    alert("Purchase completed. Thank you!")
+                    props.removeProductFromCart(null)
+                    setSuccess(true)
+                    return res;
+                } else {
+                    const error = new Error(`Error ${res.status}: ${res.statusText}`);
+                    error.res = res;
+                    throw error;
+                }
+            },
+            error => { throw error; }
+            )
+            
+            .catch(error => {
+                console.log('Error: ' + error.message) ;     
+            })  
     }
- */
-
-    if (!props.cart) {
-
+   
+    if (success) {
         return (
             <div >
-                <h1>No Items</h1>
-                <h3>{props.cart.length}</h3>
-                <Link className ='btn' to="/products">Continue Shopping</Link>
+                <h3>Thank you for your purchase!</h3>
+                 <ul>
+                      {/* {bought.map(item => <li>{item.title}</li>)}  */}
+                 </ul>               
+                <Link className ='btn btn-secondary' to="/products">Continue Shopping</Link>
             </div>
-        )  
+        )
+          
+    } else if ( props.cart.length === 0) {
+        return (
+            <div >
+                <h3>No Items</h3>
+                <h3>{props.cart.length}</h3>
+                <Link className ='btn btn-secondary' to="/products">Continue Shopping</Link>
+            </div>
+        )
     } else {
         return (
             <div className = 'container-lg'>
@@ -117,10 +124,20 @@ function Cart (props) {
                             ))} 
                             </tbody>
                         </Table>
-                    </div>                    
-                    <OrderInfo  /> 
+                    </div>  
+                    <div  className= 'card col-md-3'>
+                        <h5>Your Order Total </h5>
+                        <h2>${total.toFixed(2)}</h2>
+                        <StripeCheckout 
+                            stripeKey = "pk_test_51JhRBrECGNUUIhhjpx6b8PpifvHuopYIQoWDrcnJpY8uvFFQlenQj1Dxv45LGMLRIH1bfqWOUd27GYqTlVMH7jP60022nrPrgl"
+                            token = {handleToken}
+                            billingAddress
+                            shippingAddress
+                            amount = {total * 100}
+                        />
+                    </div>                                    
                 </div>       
-                <Link style = {{color:"#242222"}} to="/products">Continue Shopping</Link>
+                <Link className ='btn btn-secondary' to="/products">Continue Shopping</Link>
             </div>
 
         )
@@ -244,3 +261,29 @@ export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Cart));
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Cart)); */
 
   
+ /* await fetch('http://localhost:3000/checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(paymentData)
+        })
+        .then(res => {
+            if (res.ok) {
+                console.log(res)
+                alert("Purchase completed!\n" +  {paymentData})
+                return res;
+            } else {
+                const error = new Error(`Error ${res.status}: ${res.statusText}`);
+                error.res = res;
+                throw error;
+            }
+        },
+        error => { throw error; }
+        )
+        .catch(error => {
+            console.log('Error: ' + error.message) ;     
+        })  
+        
+    }
+ */
