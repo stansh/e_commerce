@@ -8,8 +8,8 @@ function Search (props) {
     const inputText = useRef();
     return (
       <div className = 'container my-3'>
-        <input ref = {inputText}  className ='col-md-4' />
-        <Button  id= 'searchBtn' onClick ={() => props.search(inputText.current.value)}>Seacrh Products</Button>
+        <input ref = {inputText}  className ='col-md-4 mr-5' />
+        <Button  id='buttons' className =' col' onClick ={() => props.search(inputText.current.value)}>Seacrh Products</Button>
       </div>
     ) 
 }

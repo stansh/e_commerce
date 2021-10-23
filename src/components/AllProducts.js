@@ -1,26 +1,22 @@
 
-import React,{useState,useEffect, useFetching}from "react";
-import {
-    Card, Jumbotron, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
-  } from 'reactstrap';
-import Cart from "./Cart";
+import React, { useEffect } from "react";
+import { Card, Spinner, Button, Badge } from 'reactstrap';
 import Search from './Search';
 import Image from './Image';
-
 import { Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchProducts,fetchCartItems, loadProductsSuccess, loadProductsData, addItem, addProductToCart,postNewCartItem} from '../redux/actionCreators'
+import { fetchProducts,fetchCartItems,postNewCartItem} from '../redux/actionCreators'
 
 
 
 
-//receives entire state tree and returns an object that contains only the data needed by the component
+
 
 const mapStateToProps = state => { 
   return {
       products: state.productsReducer.products,
-      searchResults: state.productsReducer.searchResults
+      searchResults: state.productsReducer.searchResults,
+      loading: state.productsReducer.isLoading
   };
 };
     
@@ -52,12 +48,12 @@ function AllProducts (props) {
         {props.searchResults.map((product, index) => (  
           <Card id ='prodCard' className ='col-sm-3 mx-2 mb-4' key ={index}>
             <Link to = {`/products/${product._id}`}>
-              <h4>{product.title}</h4>
-              <h3>${product.price}</h3>
+              <h5>{product.title}</h5>
+              <h4 className="fw-bolder">${product.price}</h4>
               <img src={product.image} alt={product.title} width = '100px' /> 
               <p className = 'mt-auto'>{product.description}</p>
             </Link>
-            <Button id = 'addProdBtn' className = 'btn mt-auto' onClick = {() => props.postNewCartItem(product)}>Add to Cart</Button> 
+            <Button id = 'buttons' className = 'mt-auto' onClick = {() => props.postNewCartItem(product)}>Add to Cart</Button> 
 
           </Card> 
         ))}
@@ -67,50 +63,38 @@ function AllProducts (props) {
     
     )
   } else {
+    if (props.loading) {
       return (
-        <>
-        <Image />
-        <div className = 'container'>
-          <div className ='row justify-content-center'>
-          
-          <Search  />
-          {props.products.map((product, index) => (  
-            <Card id ='prodCard' className ='col-sm-2 mx-2 mb-4' key ={index}>
-              <Link to = {`/products/${product._id}`}>
-                <h5>{product.title}</h5>
-                <h3>${product.price}</h3>
-                <img src={product.image} alt={product.title} width = '100px' />
-                <p className = 'mt-auto'>{product.description}</p>
-              </Link>
-              <Button  id = 'addProdBtn' className = 'btn mt-auto' onClick = {() => props.postNewCartItem(product)}>Add to Cart</Button> 
-            </Card> 
-          ))}
-          </div>
-        </div>  
-        </>
+        <div>
+          <Spinner color="dark" width = '500' className= "mt-5" children = "" />
+        </div>
       )
     }
-  }
-
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));
-
- /*  <div className = 'container'>
+    return (
+      <>
+      <Image />
+      <div className = 'container'>
         <div className ='row justify-content-center'>
-        <Cart />
-        <Search />
-        {props.searchResults.map((product, index) => (  
-          <Card className ='col-md-3 mx-2' key ={index}>
+        
+        <Search  />
+        {props.products.map((product, index) => (  
+          <Card id ='prodCard' className ='col-sm-2 mx-2 mb-4' key ={index}>
             <Link to = {`/products/${product._id}`}>
-              <h3>{product.title}</h3>
-              <h3>${product.price}</h3>
-              <h3>{product.name}</h3>
+              <h5>{product.title}</h5>
+              <h4 className="fw-bolder">${product.price}</h4>
               <img src={product.image} alt={product.title} width = '100px' />
+              <p className = 'my-auto'>{product.description}</p>
             </Link>
-            <p>{product.description}</p>
-          <Button onClick = {() => props.postNewCartItem(product)} >Add to Card</Button> 
+            <Button  id = 'buttons' className = 'mt-auto' onClick = {() => props.postNewCartItem(product)}>Add to Cart</Button> 
           </Card> 
         ))}
         </div>
-      </div> */
-      
+      </div>  
+      </>
+    )
+  }
+}
 
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllProducts));
+
+ 

@@ -1,17 +1,4 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
- */
 
 
  @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
@@ -29,11 +16,11 @@ code {
   font-family: 'Roboto Condensed', sans-serif;
   text-align: left;
   
-
 }
 
+
 #prodCard img {
-  width: 100px;
+  width: 8rem;
 }
 
 #prodCard a {
@@ -58,46 +45,47 @@ code {
 
 }
 
-.nav-item a {
+.navbar-brand:hover {
+  color: #FFA14A
+
+}
+
+.nav-item button:hover {
+  color: #FFA14A
+
+}
+
+.nav-item button {
+  border: none;
   color: #4BDBFF;
   text-decoration: none;
+  background-color: transparent; 
   padding-left: 1rem;
+
   
- 
 }
 
-.nav-item a:hover {
-  color: white
-
-}
-
-.navbar-toggler-icon {
-  background-color: rgb(75, 219, 255);
-} 
- 
 
 #cartIcon {
   color: white;
- 
-  margin-left: auto;
   text-decoration: none;
+ display: inline-block; 
+ margin-left: auto;
+
+
 }
 
-/* #addProdBtn {
-  border-radius: 0px;
-  
-} */
 
-#addProdBtn, .table .btn, #searchBtn,  .btn{
+
+#buttons {
   border-radius: 0px;
   background-color: #242222;
   color: rgb(75, 219, 255);
   font-family: 'Courgette', cursive;
-  
+
 }
 
-#addProdBtn:hover,.btn:hover {
-  /* background-color: #242222; */
+#buttons:hover {
   background-image: linear-gradient(to bottom right, #242222, #413e3e);
   color: white
   
@@ -105,8 +93,10 @@ code {
 
 .jumbotron img {
   object-fit: cover;
-  object-position: 100% 20%;
-  height: 500px;
+  object-position: 100% 18%; 
+  max-height: 500px; 
+
+   
   
 }
 .table {
@@ -119,14 +109,28 @@ code {
   margin-top: auto;
 }
 
+
+
 #mern {
   font-family: 'Monoton', cursive;
 }
 
-#orderInfo {
+
+
+
+#orderTotal{
   font-family: 'Roboto Condensed', sans-serif;
-  /* background-color: #fae3ce */;
+  background-color: #fae3ce;
   border-radius: 0px;
   border-width: 0px;
   height: 200px;
+}
+
+#toggler{
+  border-color: transparent
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(75, 219, 255)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  border-color:#4BDBFF
 }

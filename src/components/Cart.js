@@ -3,7 +3,6 @@ import { Button, Table} from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeProductFromCart, putQtyDown,putQtyUp,fetchCartItems} from '../redux/actionCreators';
-
 import StripeCheckout from "react-stripe-checkout";
 
 
@@ -45,13 +44,13 @@ function Cart (props) {
 
 
     async function handleToken(token) {
-        let productList = props.cart.map(item => item.title)
+        const productList = props.cart.map(item => item.title)
         const paymentData = {
             token: token,
             amount: total.toFixed(2),
             items: productList
         };
-        await fetch('http://localhost:3000/checkout', {
+        await fetch('/checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,35 +80,31 @@ function Cart (props) {
     if (success) {
         return (
             <div >
-                <h3>Thank you for your purchase!</h3>
-                 <ul>
-                      {/* {bought.map(item => <li>{item.title}</li>)}  */}
-                 </ul>               
-                <Link className ='btn btn-secondary' to="/products">Continue Shopping</Link>
+                <h3 className ='mt-5 mb-5'>Thank you for your purchase!</h3>               
+                <Link id ="buttons" className = "m-5 p-2" to="/products">Continue Shopping</Link>
             </div>
         )
           
     } else if ( props.cart.length === 0) {
         return (
             <div >
-                <h3>No Items</h3>
-                <h3>{props.cart.length}</h3>
-                <Link className ='btn btn-secondary' to="/products">Continue Shopping</Link>
+                <h3 className ='mt-5 mb-5'>No Items</h3>
+                <Link id ="buttons" className = "m-5 p-2" to="/products">Continue Shopping</Link>
             </div>
         )
     } else {
         return (
             <div className = 'container-lg'>
                 <div className = 'row'>
-                    <div className = 'col-md-9'>
-                        <Table striped className = 'mt-3 text-right'>
+                    <div className = 'table-responsive col-sm-9'>
+                        <Table striped reponsive className = 'table table-responsive mt-3 text-right'>
                             <thead>
                                 <tr >
                                 <th className= 'col-md-2 text-uppercase'>Name</th>
                                 <th className= 'col-md-1 text-uppercase'>Price</th>
-                                <th className= 'col-md-2 text-uppercase small'>Description</th>
-                                <th className= 'col-md-2 text-uppercase'>Qty</th>
-                                <th className= 'col-md-2 text-uppercase'>Price</th>
+                                <th className= 'col-md-3 text-uppercase '>Description</th>
+                                <th className= 'col-md-1 text-uppercase'>Qty</th>
+                                <th className= 'col-md-1 text-uppercase'>Subtotal</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,16 +112,22 @@ function Cart (props) {
                                 <tr key = {index} >
                                     <th >{product.title}</th>
                                     <th >${product.price}</th>
-                                    <td>{product.description}</td>
-                                    <td><Button onClick = {() => props.putQtyDown(product._id)}>-</Button> {product.qty} <Button onClick = {() => props.putQtyUp(product._id)}>+</Button></td>
+                                    <td className='small'>{product.description}</td>
+                                    <td>
+                                        <Button className='btn btn-sm' onClick = {() => props.putQtyDown(product._id)}>-</Button> 
+                                         <span> {product.qty} </span>
+                                        <Button className='btn btn-sm' onClick = {() => props.putQtyUp(product._id)}>+</Button>
+                                        <a className='btn btn-sm mt-auto text-decoration-underline text-center' href  onClick = {() => props.removeProductFromCart(product._id)}>Remove</a>
+
+                                    </td>
                                     <td>${product.price * product.qty}</td>
                                 </tr>  
                             ))} 
                             </tbody>
                         </Table>
                     </div>  
-                    <div  className= 'card col-md-3'>
-                        <h5>Your Order Total </h5>
+                    <div  className= 'col-md-3 mt-3' id = "orderTotal" >
+                        <h5>Your Total </h5>
                         <h2>${total.toFixed(2)}</h2>
                         <StripeCheckout 
                             stripeKey = "pk_test_51JhRBrECGNUUIhhjpx6b8PpifvHuopYIQoWDrcnJpY8uvFFQlenQj1Dxv45LGMLRIH1bfqWOUd27GYqTlVMH7jP60022nrPrgl"
@@ -134,10 +135,13 @@ function Cart (props) {
                             billingAddress
                             shippingAddress
                             amount = {total * 100}
+                           
                         />
                     </div>                                    
                 </div>       
-                <Link className ='btn btn-secondary' to="/products">Continue Shopping</Link>
+                <Link  to="/products">
+                    <Button id ="buttons" className = "mt-3 mb-5">Continue Shopping</Button>
+                </Link>
             </div>
 
         )
