@@ -1,7 +1,7 @@
-import React,{useState,useEffect}from "react";
-import  {Route, useParams, Link} from 'react-router-dom';
-import { Jumbotron, Button } from 'reactstrap';
-import {withRouter} from 'react-router-dom';
+import React from "react";
+import  {useParams, Link} from 'react-router-dom';
+
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 

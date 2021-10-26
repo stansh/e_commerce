@@ -1,6 +1,6 @@
 
 import React, { useEffect } from "react";
-import { Card, Spinner, Button, Badge } from 'reactstrap';
+import { Card, Spinner, Button } from 'reactstrap';
 import Search from './Search';
 import Image from './Image';
 import { Link, withRouter} from 'react-router-dom';

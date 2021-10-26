@@ -99,15 +99,15 @@ export const fetchCartItems = () => dispatch => {
      return fetch('/cart')
      
      .then(response => {
-     if (response.ok) { // true if HTTP response status cose is within 200 - 299
+     if (response.ok) { 
          return response;
      } else {
-         const error = new Error(`Error ${response.status}: ${response.statusText}`);  // bad response from server  
+         const error = new Error(`Error ${response.status}: ${response.statusText}`);  
          error.response = response;
          throw error;
      }
      },
-         error => { // no response from server at all
+         error => { 
              const errMess = new Error(error.message);
              throw errMess;
              }

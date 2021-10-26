@@ -9,8 +9,6 @@ import {BrowserRouter as Router, Switch,Route,Redirect } from 'react-router-dom'
 import {configureStore} from './redux/store';
 //import {persistStore} from 'redux-persist';
 //import { PersistGate } from 'redux-persist/integration/react';
-//import {productsData} from './shared/productsData';
-
 
 
 const store = configureStore();
@@ -21,8 +19,8 @@ function App() {
     <Provider  store = {store}>
 
       {/* <PersistGate
-         loading = {<div>Loading...</div>}  >  */}
-         {/* persistor = {persistor}   */}
+         loading = {<div>Loading...</div>}  > 
+         persistor = {persistor}   */}
         <Router>
           <div className="App">
             <Header />
@@ -34,7 +32,7 @@ function App() {
             </Switch>
           </div>
         </Router>
-      {/* </PersistGate>   */}
+     {/*  </PersistGate>   */}
     </Provider>
   );
 }

@@ -5,8 +5,9 @@ const Image = (props) => {
   return (
     <>
       <Jumbotron>
-        <div className="row">                        
-          <img className = 'img-fluid' src='JT_image2.jpg'  alt='travel'/>
+        <div className="row">  
+          <h1 id="text" >experience. learn. live..</h1>                    
+          <img className = 'img-fluid' src='image3.jpg'  alt='travel'/>
         </div>
       </Jumbotron>
     </>
