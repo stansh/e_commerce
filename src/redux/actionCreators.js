@@ -115,6 +115,7 @@ export const fetchCartItems = () => dispatch => {
      .then(res => res.json())
      .then(res => dispatch(cartItemsSuccess(res)))
      .catch(error => dispatch(cartItemsFailed(error)))
+    
      };
  
 export const putQtyUp = (id) => dispatch =>  {
