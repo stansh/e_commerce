@@ -2,7 +2,8 @@
   "name": "e_commerce",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "homepage": ".",
+  "proxy": "http://localhost:3000",
   "engines": {
     "node": "12.9.0"
   },
