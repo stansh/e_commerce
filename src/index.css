@@ -1,6 +1,4 @@
 
-
-
  @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
  @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
  @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
@@ -45,40 +43,33 @@
 
 }
 
-.navbar-brand:hover {
+.navbar-brand:hover,#cartIcon:hover,.nav-item button:hover,.nav-item a:hover {
   color: #ea68c1
 
 }
 
-.nav-item button:hover {
-  color: #ea68c1
 
-}
 
-.nav-item button {
+.nav-item button, .nav-item a {
   border: none;
   color: #4BDBFF;
   text-decoration: none;
   background-color: transparent; 
-  padding-left: 1rem;
+  list-style-type: none;
 
   
 }
 
-
 #cartIcon {
-  color: white;
+  color: #4BDBFF;
   text-decoration: none;
   display: inline-block; 
   margin-left: auto;
 
-
 }
 
-
-
 #buttons {
-  border-radius: 0px;
+  border-radius: 3px;
   background-color: #242222;
   color: rgb(75, 219, 255);
   font-family: 'Courgette', cursive;
@@ -112,8 +103,12 @@
 
 #mern {
   font-family: 'Monoton', cursive;
+  color: #4BDBFF;
 }
 
+.navbar-brand h2{
+  color: #4BDBFF;
+}
 
 
 
@@ -143,3 +138,10 @@
   font-family: 'Courgette', cursive;
   font-size: 3rem
 }
+
+#logInBtn{
+float: right;
+margin-left: auto;
+
+}
+

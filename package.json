@@ -7,16 +7,17 @@
   "engines": {
     "node": "12.9.0"
   },
-  
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
     "@reduxjs/toolkit": "^1.6.0",
-    "@stripe/react-stripe-js": "^1.6.0",
-    "@stripe/stripe-js": "^1.19.1",
+    "@stripe/react-stripe-js": "^1.16.5",
+    "@stripe/stripe-js": "^1.54.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^5.1.1",
     "dotenv": "^10.0.0",
+    "es-abstract": "^1.23.5",
     "react": "^17.0.2",
     "react-bootstrap-icons": "^1.5.0",
     "react-dom": "^17.0.2",
@@ -24,7 +25,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-stripe-checkout": "^2.6.3",
-    "react-stripe-elements": "^6.1.2",
     "reactstrap": "^8.9.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
@@ -33,7 +33,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
