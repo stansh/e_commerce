@@ -1,12 +1,10 @@
 import React, { useEffect, useState  }from "react";
-import { Button, Table} from 'reactstrap';
+import { Alert, Button, Table} from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { removeProductFromCart, putQtyDown,putQtyUp,fetchCartItems} from '../redux/actionCreators';
+import { removeProductFromCart, putQtyDown,putQtyUp,fetchCartItems, cartItemsSuccess} from '../redux/actionCreators';
 import StripeCheckout from "react-stripe-checkout";
-
-
-  
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 const mapStateToProps = state => {
@@ -19,29 +17,28 @@ const mapDispatchToProps = {
     removeProductFromCart: (id) => removeProductFromCart(id),
     putQtyUp: (id) => putQtyUp(id),
     putQtyDown: (id) => putQtyDown(id),
-    fetchCartItems: () =>  fetchCartItems() 
+    fetchCartItems: (userId) =>  fetchCartItems(userId),
+    cartItemsSuccess: () => cartItemsSuccess()
 }
 
 
-
 function Cart (props) {
-    const [success, setSuccess] = useState(false)
-    
-  
+    const [success, setSuccess] = useState(false); 
+    const { user, isLoading, isAuthenticated } = useAuth0();
+    const userId = isAuthenticated ? user.sub : "";
     let total = 0;
-
     useEffect(() => {
-        props.fetchCartItems();   
-      },[]); 
-   
+        if(isAuthenticated){
+            props.fetchCartItems(userId);
+        }
+    },[isAuthenticated, isLoading]); 
+    
     if (props.cart.length !== 0) {
         props.cart.forEach(item => {
             total = total + (item.price * item.qty)
             
         });
     }
-
-
 
     async function handleToken(token) {
         const productList = props.cart.map(item => item.title)
@@ -100,7 +97,7 @@ function Cart (props) {
                         <Table striped reponsive className = 'table table-responsive mt-3 text-right'>
                             <thead>
                                 <tr >
-                                <th className= 'col-md-2 text-uppercase'>Name</th>
+                                <th className= 'col-md-2 text-uppercase'>Title</th>
                                 <th className= 'col-md-1 text-uppercase'>Price</th>
                                 <th className= 'col-md-3 text-uppercase '>Description</th>
                                 <th className= 'col-md-1 text-uppercase'>Qty</th>
@@ -125,19 +122,34 @@ function Cart (props) {
                             ))} 
                             </tbody>
                         </Table>
-                    </div>  
-                    <div  className= 'col-md-3 mt-3' id = "orderTotal" >
-                        <h5>Your Total </h5>
-                        <h2>${total.toFixed(2)}</h2>
-                        <StripeCheckout 
-                            stripeKey = "pk_test_51JhRBrECGNUUIhhjpx6b8PpifvHuopYIQoWDrcnJpY8uvFFQlenQj1Dxv45LGMLRIH1bfqWOUd27GYqTlVMH7jP60022nrPrgl"
-                            token = {handleToken}
-                            billingAddress
-                            shippingAddress
-                            amount = {total * 100}
-                           
-                        />
-                    </div>                                    
+                    </div>
+                    {!isLoading && !user && (
+                        <div className= 'col-md-3 mt-3' id = "orderTotal" >
+                            <h4 className='mt-5'>
+                                Please log in to checkout!
+                            </h4>
+
+                        </div>
+                   
+
+                    )}
+                    {!isLoading && user && (
+                          <div  className= 'col-md-3 mt-3' id = "orderTotal" >
+                          <h5>Your Total </h5>
+                          <h2>${total.toFixed(2)}</h2>
+                          <StripeCheckout 
+                              stripeKey = {process.env.STRIPE_KEY}
+                              token = {handleToken}
+                              billingAddress
+                              shippingAddress
+                              amount = {total * 100}
+                             
+                          />
+                      </div>  
+
+                    )}
+
+                                                    
                 </div>       
                 <Link  to="/products">
                     <Button id ="buttons" className = "mt-3 mb-5">Continue Shopping</Button>

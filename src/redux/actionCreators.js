@@ -1,13 +1,13 @@
 import * as actions from './actions';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
- 
- export const fetchProducts = () => dispatch => { 
-   dispatch(productsLoading());
+//Products
+export const fetchProducts = () => dispatch => { 
+    dispatch(productsLoading());
     return fetch( "/products")
     .then(response => {
     if (response.ok) { // true if HTTP response status cose is within 200 - 299
-
         return response;
     } else {
         const error = new Error(`Error ${response.status}: ${response.statusText}`);  // bad response from server  
@@ -23,7 +23,7 @@ import * as actions from './actions';
     .then(res => res.json())
     .then(res => dispatch(loadProductsSuccess(res)))
     .catch(error => dispatch(loadingFailed(error)))
-    };
+};
   
     
 export const productsLoading = () => ({
@@ -42,7 +42,7 @@ export const loadingFailed = errMess => ({
 
 
 
-// search 
+//Search 
 export const search = keywords => ({
     type: actions.SHOW_SEARCH_RESULTS,
     payload: keywords
@@ -68,10 +68,14 @@ export const cartItemsFailed = errMess => ({
     payload: errMess
 });
 
- export const addProductToCart = productItem  => ({
+// userId property not added to Redux store; work on this
+ export const addProductToCart = (productItem,userId)  => ({
     type: actions.ADD_PRODUCT_TO_CART,
-    payload: productItem
-}) 
+    payload: {
+        productItem, 
+        userId
+        }
+    }) 
 
 export const removeProd = id => ({
     type: actions.REMOVE_PRODUCT_FROM_CART,
@@ -92,46 +96,49 @@ export const qtyDown = id => ({
 
 
 
-// updating Cart in Database
+// updating Cart items in Database
 
-export const fetchCartItems = () => dispatch => { 
-    dispatch(cartItemsLoading());
-     return fetch('/cart')
-     
+export const fetchCartItems = (userId) => dispatch => { 
+     dispatch(cartItemsLoading());
+     return fetch(`/cart?userId=${encodeURIComponent(userId)}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
      .then(response => {
-     if (response.ok) { 
-         return response;
-     } else {
-         const error = new Error(`Error ${response.status}: ${response.statusText}`);  
-         error.response = response;
-         throw error;
-     }
-     },
-         error => { 
-             const errMess = new Error(error.message);
-             throw errMess;
-             }
+        if (response.ok) { 
+                return response;
+        } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);  
+                error.response = response;
+                throw error;
+        }
+        },
+        error => { 
+                const errMess = new Error(error.message);
+                throw errMess;
+        }
      )
      .then(res => res.json())
      .then(res => dispatch(cartItemsSuccess(res)))
      .catch(error => dispatch(cartItemsFailed(error)))
     
-     };
- 
+};
+
+
 export const putQtyUp = (id) => dispatch =>  {
-
-
     const qty = {
         _id: id,
         operation: "up"
     }
- return fetch ('/cart', {
-     method: 'PUT',
-     body: JSON.stringify(qty),
-     headers: {
-      "Content-Type": "application/json" 
-      }
-   })
+    return fetch ('/cart', {
+        method: 'PUT',
+        body: JSON.stringify(qty),
+        headers: {
+        "Content-Type": "application/json" 
+        }
+    })
    .then(response => {
           if (response.ok) {
               return response;
@@ -156,13 +163,13 @@ export const putQtyDown = (id) => dispatch =>  {
         _id: id,
         operation: "down"
     }
- return fetch ('/cart', {
-     method: 'PUT',
-     body: JSON.stringify(qty),
-     headers: {
-      "Content-Type": "application/json" 
-      }
-   })
+    return fetch ('/cart', {
+        method: 'PUT',
+        body: JSON.stringify(qty),
+        headers: {
+        "Content-Type": "application/json" 
+        }
+    })
    .then(response => {
           if (response.ok) {
               return response;
@@ -183,28 +190,25 @@ export const putQtyDown = (id) => dispatch =>  {
 } 
 
 
-export const postNewCartItem = (productItem) => dispatch => {
- 
-   const newCartItem = {
-      _id: productItem._id,
-      title: productItem.title,
-      price: productItem.price.toFixed(2),
-      description: productItem.description,
-      category: productItem.category,
-      image: productItem.image,
-      qty: 1
-   }
-
- 
-
-   return fetch ('/cart', {
+export const postNewCartItem = (productItem, userId) => dispatch => {
+    const newCartItem = {
+        _id: productItem._id,
+        title: productItem.title,
+        price: productItem.price.toFixed(2),
+        description: productItem.description,
+        category: productItem.category,
+        image: productItem.image,
+        qty: 1,
+        userId: userId
+    }
+    return fetch ('/cart', {
        method: "POST",
        body: JSON.stringify(newCartItem),
        headers: {
         "Content-Type": "application/json" 
         }
-     })
-     .then(response => {
+    })
+    .then(response => {
             if (response.ok) {
                 console.log(response)
                 return response;
@@ -217,17 +221,14 @@ export const postNewCartItem = (productItem) => dispatch => {
          error => { throw error; }
         )
     .then(response => response.json())
-    .then(response => dispatch(addProductToCart(productItem)))
+    .then(response => dispatch(addProductToCart(productItem,userId)))
     .catch(error => {
         console.log('new cart item could not be posted\nError: ' + error) ;     
     })   
 }
    
 export const removeProductFromCart = (id) => dispatch => {
-  
-
     const idToDelete = { _id: id }
- 
     return fetch ('/cart', {
         method: "DELETE",
         body: JSON.stringify(idToDelete),

@@ -1,6 +1,4 @@
-import * as actions from "./actions"
-
-
+import * as actions from "./actions";
 export const cartReducer = ( state = {
     cartItems: [], 
     }, action) => { 
@@ -8,21 +6,25 @@ export const cartReducer = ( state = {
         case actions.CART_ITEMS_LOADING:
             return {...state, isLoading: true, errMess: null, cartItems:[]};
         case actions.CART_ITEMS_SUCCESS:
-           const correctedPrice_cart = action.payload.map(prod => Object.defineProperty(prod,"price",{value:prod.price / 100}))
+            console.log(state.cartItems)
+            const correctedPrice_cart = action.payload.map(prod => Object.defineProperty(prod,"price",{value:prod.price / 100}))
             return {...state, isLoading: false, errMess: null, cartItems: correctedPrice_cart };
+          // return {...state, isLoading: false, errMess: null, cartItems: state.cartItems.concat(correctedPrice_cart)};
+           
         case actions.CART_ITEMS_FAILDED:
             return {...state, isLoading: false, errMess: action.payload};
         case actions.ADD_PRODUCT_TO_CART:
-        const hasTheItem  = state.cartItems.some((item) => item._id === action.payload._id);
+        const hasTheItem  = state.cartItems.some((item) => item._id === action.payload.productItem._id);
             if(!hasTheItem)  { 
-                action.payload.qty = 1
+                action.payload.productItem.qty = 1;
+                action.payload.productItem.userId = action.payload.userId;
                 return {...state, 
-                    cartItems: state.cartItems.concat(action.payload),
+                    cartItems: state.cartItems.concat(action.payload.productItem),
                     };
             } else {
                     return {...state, 
                         cartItems: state.cartItems.map(item => {
-                            if (item.id === action.payload._id) {
+                            if (item.id === action.payload.productItem._id) {
                                 item.qty++
                             }
                             return item

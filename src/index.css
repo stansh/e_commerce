@@ -63,8 +63,6 @@
 #cartIcon {
   color: #4BDBFF;
   text-decoration: none;
-  display: inline-block; 
-  margin-left: auto;
 
 }
 
@@ -121,14 +119,17 @@
 }
 
 #toggler{
-  border-color: transparent
+  background-color:  #4BDBFF;
+  color:  #4BDBFF;
 }
+
+
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(75, 219, 255)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-  border-color:#4BDBFF
-}
+  /* background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(75, 219, 255)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  border-color:#4BDBFF */
 
+}
 
 #text {
   position: absolute;
@@ -139,9 +140,34 @@
   font-size: 3rem
 }
 
-#logInBtn{
-float: right;
-margin-left: auto;
+.rightNav {
+  display: flex; 
+  justify-content: flex-end; 
+  align-items: center; 
+
 
 }
+
+
+@media (min-width:576px) {
+  .rightNav {
+    flex-direction:row; 
+    align-items: flex-end; 
+    margin-left: auto;
+    gap: 20px; 
+  }
+}
+
+@media (max-width:576px) {
+  .rightNav {
+    flex-direction: column; 
+    align-items: flex-start; 
+    margin-right: auto;
+  }
+
+  
+}
+
+
+
 
