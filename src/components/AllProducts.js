@@ -63,10 +63,10 @@ function AllProducts (props) {
 				<Card id ='prodCard' className ='col-sm-3 mx-2 mb-4' key ={index}>
 						<Link to = {`/products/${product._id}`}>
 							<div className="row just mx-2 mx-md-1 my-3">
-								<div className="col-md-6 d-flex d-md-inline-block justify-content-center justify-content-md-left mb-3">
-									<img src={product.image} alt={product.title}  className="w-75 w-md-100"/> 
+								<div className="col-md-7 d-flex d-md-inline-block justify-content-center justify-content-md-left mb-3">
+									<img src={product.image} alt={product.title}  className="w-100"/> 
 								</div>
-								<div className="col-md-6 ">
+								<div className="col-md-5 ">
 									<h5>{product.title}</h5>
 									<h4 className="fw-bolder">${product.price}</h4>
 									<p className = 'mt-auto'>{product.description}</p>	 
